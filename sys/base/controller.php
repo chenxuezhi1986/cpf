@@ -20,6 +20,7 @@ class Controller_Base
         return self::$instance;
     }
     
+    //¿‡”≥…‰
     public function __get($name) {
         $classs['tpl'] = 'Template_Base';
         $classs['load'] = 'Loader_Base';

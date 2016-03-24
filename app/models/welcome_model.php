@@ -7,21 +7,20 @@
 
 class Welcome_Model extends Model_Base{
     
-    public $db_server_id = 2; //数据库配置号
-    public $table = 'table';
+    public $db_server_id = 1; //数据库配置号
+    public $table = 'search_items';
     
-    function __construct(){
-        //实现构造函数，不需要初始化数据库
-    }
+
     
     public function say()
     {
+        $this->db_server_id = 2;
         $opt['cached'] = true;
         $opt['select'] = '*';
         $opt['from'] = $this->table;
-        $opt['where'] = 'id in(1,2,3) and userid = 123';
-        $opt['order_by'] = 'id desc';
-        $opt['limit'] = '1,2';
+        //$opt['where'] = 'id in(1,2,3) and userid = 123';
+        $opt['order_by'] = 'sid desc';
+        //$opt['limit'] = '1,2';
         return $this->db->get($opt);
     }
     

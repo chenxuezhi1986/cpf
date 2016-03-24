@@ -9,7 +9,7 @@
 $db[1]['dbhost'] = '127.0.0.1';
 $db[1]['dbuser'] = 'root';
 $db[1]['dbpwd'] = '';
-$db[1]['dbname'] = 'test';
+$db[1]['dbname'] = 'xishuashua';
 $db[1]['dbdriver'] = 'mysql';
 $db[1]['dbprefix'] = 'c_';
 $db[1]['pconnect'] = FALSE;
