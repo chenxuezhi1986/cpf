@@ -18,7 +18,7 @@ $db[1]['dbcharset'] = 'utf8';
 
 
 //数据服务器2配置
-$db[2]['dbhost'] = '112.124.12.32';
+$db[2]['dbhost'] = '112.65.12.32';
 $db[2]['dbuser'] = 'root';
 $db[2]['dbpwd'] = '';
 $db[2]['dbname'] = 'zhoumo';
