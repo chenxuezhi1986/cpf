@@ -175,6 +175,10 @@ class Database_Base
 
         if (isset($opt['cached']) && $opt['cached'] === true) {
             $cache_time = isset($opt['cache_time']) ? intval($opt['cache_time']) : 1800; //缓存时间/秒
+            //检查目录是否存在，否则创建
+            if(!is_dir($this->cache_dir)){
+                @mkdir($this->cache_dir);
+            }
             $file = $this->cache_dir . md5($sql) . '.txt';
             if (is_file($file) && C_TIMESTAMP - filemtime($file) < $cache_time) {
                 $fp = fopen($file, "r");
