@@ -8,7 +8,7 @@
 class Welcome_Model extends Model_Base{
     
     public $db_server_id = 2; //数据库配置号
-    public $table = 'bus_users';
+    public $table = 'table';
     
     function __construct(){
         //实现构造函数，不需要初始化数据库
@@ -18,11 +18,10 @@ class Welcome_Model extends Model_Base{
     {
         $opt['cached'] = true;
         $opt['select'] = '*';
-        $opt['from'] = 'user';
-        //$opt['where'] = 'id in(1,2,3) and userid = 123';
-        //$opt['order_by'] = 'id desc';
+        $opt['from'] = $this->table;
+        $opt['where'] = 'id in(1,2,3) and userid = 123';
+        $opt['order_by'] = 'id desc';
         $opt['limit'] = '1,2';
-        //$this->db->cache_off();
         return $this->db->get($opt);
     }
     
