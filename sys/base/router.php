@@ -48,7 +48,7 @@ class Router_Base
     private function _get_uri()
     {
         if ($this->url_mode == 1) {
-            $pathinfo = isset($_SERVER['PATH_INFO']) ? trim($_SERVER['PATH_INFO'], '/') : false;
+            $pathinfo = isset($_SERVER['PATH_INFO']) ? trim($_SERVER['PATH_INFO'], '/') : NULL;
             $this->_XSS($pathinfo); //防止XSS攻击
             $uri = $this->_pathinfo_to_ctl($pathinfo);
         } else {
@@ -71,6 +71,7 @@ class Router_Base
         return $this->_uri_map($uri);
     }
 
+    //URI重定向
     private function _uri_map($uri)
     {
         if (count($this->event_map) > 0) {

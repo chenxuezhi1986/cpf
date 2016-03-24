@@ -8,7 +8,7 @@
 class Model_Base
 {
     
-    protected $db_server_id = 1;
+    protected $db_server_id = 1; //数据库配置号，默认选择1号配置
     protected $table;
     protected $db;
     

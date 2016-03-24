@@ -68,6 +68,7 @@ class Database_Base
         } else {
             error('Not found database is config : ' . $db_server_id);
         }
+        //连接数据库
         $this->driver->connect($this->dbhost, $this->dbuser, $this->dbpwd, $this->
             dbcharset, $this->dbname, $this->pconnect);
     }

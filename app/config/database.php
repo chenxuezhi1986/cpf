@@ -5,7 +5,7 @@
  * @copyright 2014
  */
 
-//数据服务器①配置
+//数据服务器1配置
 $db[1]['dbhost'] = '127.0.0.1';
 $db[1]['dbuser'] = 'root';
 $db[1]['dbpwd'] = '';
@@ -17,7 +17,7 @@ $db[1]['cache_dir'] = './data/sqlcache/';
 $db[1]['dbcharset'] = 'utf8';
 
 
-//数据服务器①配置
+//数据服务器2配置
 $db[2]['dbhost'] = '112.124.68.198';
 $db[2]['dbuser'] = 'root';
 $db[2]['dbpwd'] = 'cxz!(*^2013';
