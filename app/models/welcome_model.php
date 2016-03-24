@@ -10,9 +10,9 @@ class Welcome_Model extends Model_Base{
     public $db_server_id = 2; //数据库配置号
     public $table = 'bus_users';
     
-    //function __construct(){
+    function __construct(){
         //实现构造函数，不需要初始化数据库
-    //}
+    }
     
     public function say()
     {

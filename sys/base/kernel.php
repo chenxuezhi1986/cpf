@@ -105,7 +105,12 @@ class Kernel
         self::_parse_ctl(); //解析控制器
 
         if (defined('C_DEBUG') && C_DEBUG) {
-            self::$debug_info['memory_usage'] = memory_get_usage() / 1024;
+            //内存消耗单位转换
+            $unit = array('b','kb','mb','gb','tb','pb');
+            $memory_size = memory_get_usage(true);
+            $memory_size = @round($memory_size/pow(1024,($i=floor(log($memory_size,1024)))),2).' '.$unit[$i];
+            
+            self::$debug_info['memory_usage'] = $memory_size;
             self::$debug_info['runtime'] = self::_microtime() - C_TIMEMICRO;
             require(BASEPATH.'base/debug.php');
         }
