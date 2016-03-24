@@ -33,6 +33,15 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
      */
     public function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false)
     {
+		//记录加载模板文件
+		if (defined('C_DEBUG') && C_DEBUG) {
+			$tpl_filename = rtrim($this->template_dir[0],'\/').'/'.$template;
+			//if(!in_array($tpl_filename, Kernel::$debug_info['template'])){
+				array_push(Kernel::$debug_info['template'], $tpl_filename);
+			//}
+			
+		}
+		
         if ($template === null && $this instanceof $this->template_class) {
             $template = $this;
         }

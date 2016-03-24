@@ -29,7 +29,12 @@ class Controller_Base
             if(!isset(self::$objs[$name])){
                 self::$objs[$name] = new $classs[$name];
             }
-            return self::$objs[$name];
+            
+        if($name == 'tpl'){
+            //print_r(self::$objs[$name]);
         }
+            
+            return self::$objs[$name];
+        }        
     }
 }

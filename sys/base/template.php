@@ -18,5 +18,7 @@ class Template_Base extends Smarty
         $this->cache_dir = './data/smarty/templates_cache'; //缓存文件夹
         $this->left_delimiter = "<{";
         $this->right_delimiter = "}>";
+        //初始化Debug模板记录变量
+        Kernel::$debug_info['template'] = array();
     }
 }

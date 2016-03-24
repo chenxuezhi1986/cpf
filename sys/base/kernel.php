@@ -109,9 +109,12 @@ class Kernel
             $unit = array('b','kb','mb','gb','tb','pb');
             $memory_size = memory_get_usage(true);
             $memory_size = @round($memory_size/pow(1024,($i=floor(log($memory_size,1024)))),2).' '.$unit[$i];
-            
+
             self::$debug_info['memory_usage'] = $memory_size;
             self::$debug_info['runtime'] = self::_microtime() - C_TIMEMICRO;
+            if(empty(self::$debug_info['template'])){
+                unset(self::$debug_info['template']);
+            }
             require(BASEPATH.'base/debug.php');
         }
     }
