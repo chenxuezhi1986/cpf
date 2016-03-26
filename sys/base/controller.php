@@ -21,7 +21,7 @@ class Controller_Base
     }
 
     
-    //øÿ÷∆∆˜øÏΩ›∑Ω∑®”≥…‰»Á£∫$this->load
+    //ÊéßÂà∂Âô®Âø´Êç∑ÊñπÊ≥ïÊò†Â∞ÑÂ¶ÇÔºö$this->load
     public function __get($name) {
         $classs['tpl'] = 'Template_Base';
         $classs['load'] = 'Loader_Base';
@@ -35,7 +35,7 @@ class Controller_Base
         }        
     }
     
-    //¿‡∑¥…‰
+    //Á±ªÂèçÂ∞Ñ
     public static function class_alias(){
         class_alias('loader_base','load');
     }
