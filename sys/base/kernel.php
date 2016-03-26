@@ -67,8 +67,10 @@ class Kernel
      */
     private static function _autoload($class)
     {
+        $class = strtolower($class);
+        $class = ($class == 'load') ? 'loader_base' : $class;
+
         if ($pos = strrpos($class, '_')) {
-            $class = strtolower($class);
             $name = substr($class, 0, $pos);
             $exts = substr($class, $pos + 1);
 

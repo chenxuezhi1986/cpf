@@ -5,6 +5,9 @@
  * @copyright 2014
  */
 
+//类别名
+class_alias('Loader_Base','load',false);
+
 class Loader_Base
 {
     /**
@@ -13,7 +16,7 @@ class Loader_Base
      * @param array $config 配置参数
      * @return obj
      */
-    public function lib($class, $config = array())
+    public static function lib($class, $config = array())
     {
         static $_classes = array();
 
@@ -48,7 +51,7 @@ class Loader_Base
      * @param string $name  变量名称
      * @return obj
      */
-    public function model($model, $name = '', $db_conn = false)
+    public static function model($model, $name = '', $db_conn = false)
     {
         static $_classes = array();
         

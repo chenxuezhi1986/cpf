@@ -19,8 +19,9 @@ class Controller_Base
     {
         return self::$instance;
     }
+
     
-    //类映射
+    //控制器快捷方法映射如：$this->load
     public function __get($name) {
         $classs['tpl'] = 'Template_Base';
         $classs['load'] = 'Loader_Base';
@@ -32,5 +33,10 @@ class Controller_Base
             }
             return self::$objs[$name];
         }        
+    }
+    
+    //类反射
+    public static function class_alias(){
+        class_alias('loader_base','load');
     }
 }
