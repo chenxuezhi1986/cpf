@@ -7,21 +7,18 @@
 
 class Welcome_Model extends Model_Base{
     
-    public $db_server_id = 1; //数据库配置号
-    public $table = 'search_items';
-    
+    public $db_config_id = 1; //数据库配置号
 
-    
     public function say()
     {
-        $this->db_server_id = 2;
         $opt['cached'] = true;
         $opt['select'] = '*';
-        $opt['from'] = $this->table;
+        $opt['from'] = 'search_items';
         //$opt['where'] = 'id in(1,2,3) and userid = 123';
         $opt['order_by'] = 'sid desc';
         //$opt['limit'] = '1,2';
-        return $this->db->get($opt);
+        $data = $this->get($opt);
+        return $data;
     }
     
     public function hi()

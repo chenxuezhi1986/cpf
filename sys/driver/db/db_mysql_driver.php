@@ -89,10 +89,11 @@ class Db_Mysql_Driver
             }
 
             if (!$silent) {
-                error($this->error() . $this->errno() . $sql);
+                error($this->error().' '.$this->errno().' '.$sql);
             }
         }
 
+        //记录SQL执行时间
         if (defined('C_DEBUG') && C_DEBUG) {
             Kernel::$debug_info['sql'][] = $sql . ' <' . number_format((microtime(true) - $starttime),
                 6) . '>';

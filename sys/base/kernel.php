@@ -68,7 +68,17 @@ class Kernel
     private static function _autoload($class)
     {
         $class = strtolower($class);
-        $class = ($class == 'load') ? 'loader_base' : $class;
+
+        //支持load、db类::静态方式调用
+        switch($class){
+            case 'load':
+                $class = 'loader_base';
+                break;
+            
+            case 'db':
+                $class = 'model_base';
+                break;
+        }
 
         if ($pos = strrpos($class, '_')) {
             $name = substr($class, 0, $pos);
