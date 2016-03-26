@@ -10,5 +10,5 @@ $router['deft_ctl'] = 'welcome';
 $router['deft_action'] = 'index';
 $router['event_map'] = array(
     'ccc'=>'hh',
-    'cxz' => 'test/11'
+    'test' => 'welcome'
 );

@@ -36,10 +36,13 @@ class Router_Base
 
     public function get_event()
     {
-        if (strpos($this->_get_uri(), '/')) {
-            $data = explode('/', $this->_get_uri());
+        $event['ctl'] = '';
+        $event['action'] = '';
+        $URI = $this->_get_uri();
+        if (strpos($URI, '/')) {
+            $data = explode('/', $URI);
         } else {
-            $data = array($this->_get_uri(), $this->deft_action);
+            $data = array($URI, $this->deft_action);
         }
         list($event['ctl'], $event['action']) = $data;
         return $event;
