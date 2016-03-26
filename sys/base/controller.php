@@ -34,9 +34,4 @@ class Controller_Base
             return self::$objs[$name];
         }        
     }
-    
-    //类反射
-    public static function class_alias(){
-        class_alias('loader_base','load');
-    }
 }
