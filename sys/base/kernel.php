@@ -15,8 +15,8 @@ class Kernel
         define('C_TIMEMICRO', self::_microtime());
 
         spl_autoload_register(array('Kernel', '_autoload')); //设置自动加载函数
-        set_error_handler(array('Exception_base', 'error_handler')); //自定义错误方法
-        require (BASEPATH . 'base/common.php'); //函数库
+        set_error_handler(array('Error_base', 'error_handler')); //自定义错误方法
+        require_once (BASEPATH . 'base/common.php'); //函数库
     }
 
     public static function &__this()
@@ -38,10 +38,10 @@ class Kernel
                 error_404();
             } else {
                 $obj = new $class_name();
-                if (!method_exists($obj, $event['action'])) {
+                if (!method_exists($obj, $event['act'])) {
                     error_404();
                 }
-                $obj->$event['action']();
+                $obj->$event['act']();
                 unset($obj);
             }
         } else {
@@ -116,6 +116,7 @@ class Kernel
         self::_init(); //加载文件
         self::_parse_ctl(); //解析控制器
 
+        //Debug模式
         if (defined('C_DEBUG') && C_DEBUG) {
             //内存消耗单位转换
             $unit = array('b','kb','mb','gb','tb','pb');

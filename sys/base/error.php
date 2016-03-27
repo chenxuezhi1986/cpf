@@ -5,7 +5,7 @@
  * @copyright 2014
  */
 
-class Exception_Base extends Exception
+class Error_Base extends Exception
 {
 
     public function __construct($message, $code = 0)

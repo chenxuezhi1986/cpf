@@ -33,7 +33,7 @@ if (!function_exists('getgpc')) {
 if (!function_exists('error_404')) {
     function error_404()
     {
-        echo Exception_Base::error_404();
+        echo Error_Base::error_404();
         exit;
     }
 }

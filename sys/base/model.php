@@ -5,7 +5,7 @@
  * @copyright 2014
  */
 
-//Àà±ðÃû
+//ç±»åˆ«å
 class_alias('Model_Base','db',false);
 
 class Model_Base
@@ -24,7 +24,7 @@ class Model_Base
     private $cache_dir = '';
     
     public $driver = '';
-    protected $db_config_id = 1; //Êý¾Ý¿âÅäÖÃºÅ£¬Ä¬ÈÏÑ¡Ôñ1ºÅÅäÖÃ
+    protected $db_config_id = 1; //æ•°æ®åº“é…ç½®å·ï¼Œé»˜è®¤é€‰æ‹©1å·é…ç½®
 
 
     public function __construct()
@@ -75,13 +75,13 @@ class Model_Base
     
     private function _initialize()
     {
-        //¼ÓÔØÅäÖÃ
+        //åŠ è½½é…ç½®
         $this->_load_config();
-        //ÉèÖÃ³ÉÔ±±äÁ¿
+        //è®¾ç½®æˆå‘˜å˜é‡
         $this->_set_mem_var();
-        //¼ÓÔØÇý¶¯
+        //åŠ è½½é©±åŠ¨
         $this->_load_driver();
-        //Á¬½ÓÊý¾Ý¿â
+        //è¿žæŽ¥æ•°æ®åº“
         $this->driver->connect($this->dbhost, $this->dbuser, $this->dbpwd, $this->dbcharset, $this->dbname, $this->pconnect);
     }
 
@@ -193,8 +193,8 @@ class Model_Base
         $sql = $this->_build_select_sql($opt);
 
         if (isset($opt['cached']) && $opt['cached'] === true) {
-            $cache_time = isset($opt['cache_time']) ? intval($opt['cache_time']) : 1800; //»º´æÊ±¼ä/Ãë
-            //¼ì²éÄ¿Â¼ÊÇ·ñ´æÔÚ£¬·ñÔò´´½¨
+            $cache_time = isset($opt['cache_time']) ? intval($opt['cache_time']) : 1800; //ç¼“å­˜æ—¶é—´/ç§’
+            //æ£€æŸ¥ç›®å½•æ˜¯å¦å­˜åœ¨ï¼Œå¦åˆ™åˆ›å»º
             if(!is_dir($this->cache_dir)){
                 @mkdir($this->cache_dir);
             }

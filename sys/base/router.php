@@ -8,9 +8,12 @@
 class Router_Base
 {
     static $_instance;
+    const URL_PHPINFO = 1;
+    const URL_GET = 2;
+    
     private $url_mode = 1;
-    private $deft_ctl = 'welcome';
-    private $deft_action = 'index';
+    private $deft_ctl = '';
+    private $deft_act = '';
     private $event_map = array();
 
     function __construct()
@@ -37,34 +40,40 @@ class Router_Base
     public function get_event()
     {
         $event['ctl'] = '';
-        $event['action'] = '';
+        $event['act'] = '';
         $URI = $this->_get_uri();
         if (strpos($URI, '/')) {
             $data = explode('/', $URI);
         } else {
-            $data = array($URI, $this->deft_action);
+            $data = array($URI, $this->deft_act);
         }
-        list($event['ctl'], $event['action']) = $data;
+        list($event['ctl'], $event['act']) = $data;
         return $event;
     }
 
     private function _get_uri()
     {
-        if ($this->url_mode == 1) {
-            $pathinfo = isset($_SERVER['PATH_INFO']) ? trim($_SERVER['PATH_INFO'], '/') : NULL;
-            $this->_XSS($pathinfo); //防止XSS攻击
-            $uri = $this->_pathinfo_to_ctl($pathinfo);
-        } else {
-            $uri = $this->_params_to_ctl($_GET);
+        $uri = '';
+        switch($this->url_mode) {
+            case Router_Base::URL_PHPINFO:
+                $pathinfo = isset($_SERVER['PATH_INFO']) ? trim($_SERVER['PATH_INFO'], '/') : NULL;
+                $this->_XSS($pathinfo); //防止XSS攻击
+                $uri = $this->_pathinfo_to_ctl($pathinfo);
+                break;
+                
+            case Router_Base::URL_GET:
+                $uri = $this->_get_to_ctl($_GET);
+                break;
         }
+        
         return $uri;
     }
 
-    private function _params_to_ctl($params)
+    private function _get_to_ctl($params)
     {
         $ctl = !empty($params['c']) ? $params['c'] : $this->deft_ctl;
-        $action = !empty($params['a']) ? $params['a'] : $this->deft_action;
-        $event = $ctl . '/' . $action;
+        $act = !empty($params['a']) ? $params['a'] : $this->deft_act;
+        $event = $ctl . '/' . $act;
         return $event;
     }
 
