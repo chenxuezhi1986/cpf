@@ -18,10 +18,10 @@ class Router_Base
 
     function __construct()
     {
-        $this->init();
+        $this->_init();
     }
 
-    private function init()
+    private function _init()
     {
         $filename = APPPATH . 'config/router.php';
         if (is_file($filename)) {

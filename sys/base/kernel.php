@@ -78,6 +78,10 @@ class Kernel
             case 'db':
                 $class = 'model_base';
                 break;
+                
+            case 'tpl':
+                $class = 'template_base';
+                break;
         }
 
         if ($pos = strrpos($class, '_')) {
@@ -125,9 +129,6 @@ class Kernel
 
             self::$debug_info['memory_usage'] = $memory_size;
             self::$debug_info['runtime'] = self::_microtime() - C_TIMEMICRO;
-            if(empty(self::$debug_info['template'])){
-                unset(self::$debug_info['template']);
-            }
             require(BASEPATH.'base/debug.php');
         }
     }

@@ -84,12 +84,6 @@ class Model_Base
         //连接数据库
         $this->driver->connect($this->dbhost, $this->dbuser, $this->dbpwd, $this->dbcharset, $this->dbname, $this->pconnect);
     }
-
-    public static function init()
-    {
-        $obj = self::get_instance();
-        return $obj;
-    }
     
     public function set_db_config_id($db_config_id)
     {
@@ -258,8 +252,13 @@ class Model_Base
         $this->driver->close();
         return $data;
     }
+    
+    public static function init()
+    {
+        return self::get_instance();
+    }
 
-    static function get_instance()
+    public static function get_instance()
     {
         if (self::$_instance instanceof self) {
             return self::$_instance;
