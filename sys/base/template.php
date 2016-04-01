@@ -24,7 +24,6 @@ class Template_Base {
     private $replacement = array();
     
     private $tpl;
-    private $tpl_vars = array();
     
     function __construct()
     {
@@ -70,12 +69,8 @@ class Template_Base {
             Kernel::$debug_info['template'] = $tpls;
         }
         
-        if(count($data) > 0 ){
-            $this->tpl_vars = $data;
-        }
-        
         //加载模板
-        $this->load_tpl($tpl);
+        $this->_load_tpl($tpl,$data);
 
     }
     
@@ -84,9 +79,14 @@ class Template_Base {
      * @param $tpl 模板名称
      * @return void
      * */
-    private function load_tpl($tpl, $is_return = false)
+    private function _load_tpl($tpl, &$data=array(), $is_return = false)
     {
         if(is_file($this->tpl)) {
+            
+            if(count($data) > 0 ){
+                extract($data);
+            }
+            
 
             //是否开启缓存
             if($this->tpl_is_cache === true){
@@ -108,22 +108,22 @@ class Template_Base {
             }
             
             //编译模板
-            $compile_tpl = $this->tpl_compile_dir.'/'.md5_file($this->tpl).'.php';
+            $__compile_tpl = $this->tpl_compile_dir.'/'.md5_file($this->tpl).'.php';
             
-            if(is_file($compile_tpl)) {
-                require($compile_tpl);
+            if(is_file($__compile_tpl)) {
+                include($__compile_tpl);
             }else{
-                if($fp = @fopen($this->tpl, 'r')){
-                    $tpl_content = fread($fp, filesize($this->tpl));
-                    fclose($fp);
+                if($__fp = @fopen($this->tpl, 'r')){
+                    $__tpl_content = fread($__fp, filesize($this->tpl));
+                    fclose($__fp);
                     //解析模板
-                    $content = $this->parse_tpl($tpl_content);
+                    $__content = $this->_parse_tpl($__tpl_content);
                     
                     //写入编译文件
-                    if($fp = @fopen($compile_tpl, 'w')) {
-                        fputs($fp, $content);
-                        fclose($fp);
-                        require($compile_tpl);
+                    if($__fp = @fopen($__compile_tpl, 'w')) {
+                        fputs($__fp, $__content);
+                        fclose($__fp);
+                        include($__compile_tpl);
                     }
                 }
             }
@@ -144,19 +144,33 @@ class Template_Base {
         }
     }
     
-    private function parse_tpl($tpl_content)
+    private function _parse_tpl($tpl_content)
     {
         $pattern = array(
-            "#{$this->tpl_left}\\$(\w*){$this->tpl_right}#", //解析变量
-            "#{$this->tpl_left}\\include file\s?=\s?('.*'|\".*\"){$this->tpl_right}#" //<{include file = ''}>
+            "#{$this->tpl_left}\\$(\w+){$this->tpl_right}#", //变量
+            "#{$this->tpl_left}\\$(\w+)(\[.*\]+){$this->tpl_right}#", //数组
+            "#{$this->tpl_left}include\s+file\s*=\s*('.*'|\".*\"){$this->tpl_right}#",
+            "#{$this->tpl_left}foreach\s+\\$(\w+)\s+as\s+(.+?){$this->tpl_right}#",
+            "#{$this->tpl_left}/foreach{$this->tpl_right}#",
+            "#{$this->tpl_left}if(.+?){$this->tpl_right}#",
+            "#{$this->tpl_left}else{$this->tpl_right}#",
+            "#{$this->tpl_left}elseif(.+?){$this->tpl_right}#",
+            "#{$this->tpl_left}/if{$this->tpl_right}#",
         );
         
         $replacement = array(
-            '<?php echo $this->tpl_vars[\'\1\'];?>',
-            '<?php $this->display(\1);?>'
+            '<?php echo $\1;?>',
+            '<?php echo $\1\2;?>',
+            '<?php $this->display(\1);?>',
+            "<?php \$i=0;foreach($\\1 as \\2) : \$i++; ?>",
+            '<?php endforeach;?>',
+            '<?php if \1 : ?>',
+            '<?php else:?>',
+            '<?php elseif \1 : ?>',
+            '<?php endif;?>',
         );
         
-        //合并标签替换
+        //合并配置文件标签替换数组
         $count_pattern = count($this->pattern);
         $count_replacement = count($this->replacement);
         
