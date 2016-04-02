@@ -24,6 +24,8 @@ class Template_Base {
     private $replacement = array();
     
     private $tpl;
+    private $tpl_cache_key;
+    private $tpl_cache_content;
     
     function __construct()
     {
@@ -32,6 +34,7 @@ class Template_Base {
     
     private function _initialize()
     {
+        $this->tpl_cache_key = sha1($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
         $filename = APPPATH . 'config/template.php';
         if (is_file($filename)) {
             include ($filename);
@@ -86,12 +89,10 @@ class Template_Base {
             if(count($data) > 0 ){
                 extract($data);
             }
-            
 
             //是否开启缓存
             if($this->tpl_is_cache === true){
-                $sha1_name = sha1($this->tpl); //模板路径sha1值
-                $cache_tpl = $this->tpl_cache_dir.'/'.$tpl.'_'.$sha1_name.'.php';
+                $cache_tpl = $this->tpl_cache_dir.'/'.$this->tpl_cache_key.'.php'; 
                 if(is_file($cache_tpl)) {
                     $cur_time = time(); //当前时间
                     $filectime = filemtime($cache_tpl); //文件上次修改时间
@@ -130,14 +131,7 @@ class Template_Base {
 
             //缓存结束
             if($this->tpl_is_cache === true) {
-                $tpl_cache_content = ob_get_clean();               
-
-                //写入缓存文件
-                if($fp = @fopen($cache_tpl, 'w')) {
-                    fputs($fp, $tpl_cache_content);
-                    fclose($fp);
-                    require($cache_tpl);
-                }
+                $this->tpl_cache_content = ob_get_flush();
             }
         }else{
             error('Not found template '.$this->tpl);
@@ -183,6 +177,20 @@ class Template_Base {
   
         $tpl_content = preg_replace($pattern, $replacement, $tpl_content);
         return $tpl_content;
+    }
+    
+    function __destruct()
+    {
+        //保存缓存
+        if($this->tpl_is_cache === true){
+            $cache_tpl = dirname(__FILE__).'/../../'.$this->tpl_cache_dir.'/'.$this->tpl_cache_key.'.php';
+            if(!is_file($cache_tpl)){
+                if($fp = fopen($cache_tpl, 'w')) {
+                    fputs($fp, $this->tpl_cache_content);
+                    fclose($fp);
+                }                
+            }
+        }
     }
     
     public static function init()
