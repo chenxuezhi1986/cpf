@@ -49,7 +49,17 @@ class Template_Base {
             Kernel::$debug_info['template'] = $tpls;
         }
         
+        if($cached){
+            ob_start();
+        }
+        
         include($this->tpl);
+        
+        if($cached){
+            $content = ob_get_contents();
+            ob_end_clean();
+            return $content;
+        }
 
     }
     
