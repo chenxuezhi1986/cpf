@@ -19,7 +19,6 @@ class Controller_Base
     {
         return self::$instance;
     }
-
     
     //控制器快捷方法映射如：$this->load
     public function __get($name) {
@@ -33,6 +32,6 @@ class Controller_Base
                 self::$objs[$name] = new $classs[$name];
             }
             return self::$objs[$name];
-        }        
+        }
     }
 }

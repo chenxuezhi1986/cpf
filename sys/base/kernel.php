@@ -98,7 +98,6 @@ class Kernel
 
             $paths['base'] = BASEPATH . 'base/';
             $paths['lib'] = BASEPATH . 'lib/';
-            $paths['extlib'] = APPPATH . 'lib/';
             $paths['model'] = APPPATH . 'models/';
             $paths['controller'] = APPPATH . 'controller/';
 
