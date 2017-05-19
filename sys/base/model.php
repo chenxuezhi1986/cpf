@@ -264,7 +264,8 @@ class Model_Base
         if (self::$_instance instanceof self) {
             return self::$_instance;
         }
-        self::$_instance = new Model_Base();
+        $class_name = get_called_class(); //获取子类类名，需要PHP>=5.3.0才支持
+        self::$_instance = new $class_name();
         return self::$_instance;
     }
 }
