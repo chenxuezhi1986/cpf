@@ -1,4 +1,4 @@
-﻿CPF(C Php Framework)框架 -- 作最小PHP框架</br>
+﻿CPF(C Php Framework)框架 -- 作最小PHP框架1</br>
 QQ：183609025</br>
 1.单入口，默认控制器设定，XSS攻击防范，基类使用单列模式</br>
 2.MVC模式部署</br>
