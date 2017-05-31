@@ -253,11 +253,6 @@ class Model_Base
         $this->driver->close();
         return $data;
     }
-    
-    public static function init()
-    {
-        return self::get_instance();
-    }
 
     public static function get_instance()
     {

@@ -80,8 +80,7 @@ class Mysql_Driver
         $func = $unbuffered ? 'mysql_unbuffered_query' : 'mysql_query';
 
         if (!($query = $func($sql, $this->curlink))) {
-            if (in_array($this->errno(), array(2006, 2013)) && substr($silent, 0, 5) !=
-                'RETRY') {
+            if (in_array($this->errno(), array(2006, 2013)) && substr($silent, 0, 5) != 'RETRY') {
                 $this->curlink = $this->connect($this->config['dbhost'], $this->config['dbuser'],
                     $this->config['dbpwd'], $this->config['dbcharset'], $this->config['dbname'], $this->
                     config['pconnect']);
@@ -95,8 +94,7 @@ class Mysql_Driver
 
         //记录SQL执行时间
         if (defined('C_DEBUG') && C_DEBUG) {
-            Kernel::$debug_info['sql'][] = $sql . ' <' . number_format((microtime(true) - $starttime),
-                6) . '>';
+            Kernel::$debug_info['sql'][] = $sql . ' <' . number_format((microtime(true) - $starttime), 6) . '>';
         }
 
         return $query;
@@ -141,8 +139,7 @@ class Mysql_Driver
 
     public function insert_id()
     {
-        return ($id = mysql_insert_id($this->curlink)) >= 0 ? $id : $this->result($this->
-            query("SELECT last_insert_id()"), 0);
+        return ($id = mysql_insert_id($this->curlink)) >= 0 ? $id : $this->result($this->query("SELECT last_insert_id()"), 0);
     }
 
     public function fetch_row($query)
