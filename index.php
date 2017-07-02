@@ -8,6 +8,6 @@
 define('C_DEBUG', true);
 define('BASEPATH', './sys/');
 define('APPPATH', './app/');
-require (BASEPATH . './base/kernel.php');
+require (BASEPATH . './core/kernel.php');
 Kernel::run();
 ?>
