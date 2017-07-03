@@ -68,20 +68,13 @@ class Kernel {
     {
         $class = strtolower($class);
 
-        //支持load、db类::静态方式调用
-        switch($class){
-            case 'load':
-                $class = 'loader_core';
-                break;
-            
-            case 'db':
-                $class = 'model_core';
-                break;
-                
-            case 'tpl':
-                $class = 'template_core';
-                break;
-        }
+        //支持load、db、tpl类::静态方式调用
+        $cls_maps = array(
+            'load'=>'loader_core',
+            'db'=>'model_core',
+            'tpl'=>'template_core'
+        );
+        isset($cls_maps[$class]) && $class = $cls_maps[$class];
 
         if ($pos = strrpos($class, '_')) {
             $name = substr($class, 0, $pos);
