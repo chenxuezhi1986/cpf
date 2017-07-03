@@ -5,11 +5,7 @@
  * @copyright 2014
  */
 
-//类别名
-class_alias('Loader_Base','load',false);
-
-class Loader_Base
-{
+class Loader_Core {
     /**
      * 载入扩展类
      * @param string $class 类名

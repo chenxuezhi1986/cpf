@@ -5,8 +5,7 @@
  * @copyright 2014
  */
 
-class Param_Base
-{
+class Param_Core {
     public function get($var, $type = '')
     {
         $this->_settype($_GET[$var], $type);

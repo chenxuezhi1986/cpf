@@ -5,8 +5,7 @@
  * @copyright 2014
  */
 
-class Router_Base
-{
+class Router_Base {
     static $_instance;
     const URL_PHPINFO = 1;
     const URL_GET = 0;
@@ -55,11 +54,11 @@ class Router_Base
     {
         $uri = '';
         switch($this->url_mode) {            
-            case Router_Base::URL_GET:
+            case Router_Core::URL_GET:
                 $uri = $this->_get_to_ctl($_GET);
                 break;
                 
-            case Router_Base::URL_PHPINFO:
+            case Router_Core::URL_PHPINFO:
                 $pathinfo = isset($_SERVER['PATH_INFO']) ? trim($_SERVER['PATH_INFO'], '/') : NULL;
                 $this->_XSS($pathinfo); //防止XSS攻击
                 $uri = $this->_pathinfo_to_ctl($pathinfo);

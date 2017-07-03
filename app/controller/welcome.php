@@ -5,7 +5,7 @@
  * @copyright 2014
  */
 
-class Welcome_Controller extends Controller_Base{
+class Welcome_Controller extends Controller_Core{
     
     public function index()
     {

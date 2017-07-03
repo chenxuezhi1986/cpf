@@ -5,10 +5,7 @@
  * @copyright 2014
  */
  
-//类别名
-class_alias('Template_Base','tpl',false);
- 
-class Template_Base {
+class Template_Core {
     
     static $_instance;
     private $tpl_dir = './app/templates';

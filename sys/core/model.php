@@ -5,11 +5,7 @@
  * @copyright 2014
  */
 
-//类别名
-class_alias('Model_Base','db',false);
-
-class Model_Base
-{
+class Model_Core {
     private static $_instance;
     private $config = array();
     

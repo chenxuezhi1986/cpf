@@ -5,8 +5,7 @@
  * @copyright 2014
  */
 
-class Kernel
-{
+class Kernel {
     public static $debug_info = array();
 
     private static function _init()
@@ -15,13 +14,13 @@ class Kernel
         define('C_TIMEMICRO', self::_microtime());
 
         spl_autoload_register(array('Kernel', '_autoload')); //设置自动加载函数
-        set_error_handler(array('Error_base', 'error_handler')); //自定义错误方法
+        set_error_handler(array('Error_Core', 'error_handler')); //自定义错误方法
         require_once (BASEPATH . 'base/common.php'); //函数库
     }
 
     public static function &__this()
     {
-        return Controller_Base::get_instance();
+        return Controller_Core::get_instance();
     }
 
     /**
@@ -29,7 +28,7 @@ class Kernel
      */
     private static function _parse_ctl()
     {
-        $router = Router_Base::get_instance();
+        $router = Router_Core::get_instance();
         $event = $router->get_event();
         $filename = APPPATH . 'controller/' . $event['ctl'] . '.php';
         if (is_file($filename)) {
@@ -72,15 +71,15 @@ class Kernel
         //支持load、db类::静态方式调用
         switch($class){
             case 'load':
-                $class = 'loader_base';
+                $class = 'loader_core';
                 break;
             
             case 'db':
-                $class = 'model_base';
+                $class = 'model_core';
                 break;
                 
             case 'tpl':
-                $class = 'template_base';
+                $class = 'template_core';
                 break;
         }
 
@@ -90,13 +89,9 @@ class Kernel
 
             if ($exts == 'model') {
                 $name = $class;
-            }else if(preg_match("/view|handle|main/i", $exts)) {
-                $exts = 'model';
-                $pos = strpos($class, '_');
-                $name = substr($class, 0, $pos) . '/' . $class;
             }
 
-            $paths['base'] = BASEPATH . 'base/';
+            $paths['core'] = BASEPATH . 'core/';
             $paths['lib'] = BASEPATH . 'lib/';
             $paths['model'] = APPPATH . 'models/';
             $paths['controller'] = APPPATH . 'controller/';

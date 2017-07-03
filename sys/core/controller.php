@@ -5,7 +5,7 @@
  * @copyright 2014
  */
 
-class Controller_Base
+class Controller_Core
 {
     static $objs = array();
     static $instance;
@@ -22,10 +22,10 @@ class Controller_Base
     
     //控制器快捷方法映射如：$this->load
     public function __get($name) {
-        $classs['db'] = 'Db_Base';
-        $classs['tpl'] = 'Template_Base';
-        $classs['load'] = 'Loader_Base';
-        $classs['param'] = 'Param_Base';
+        $classs['db'] = 'Model_Core';
+        $classs['tpl'] = 'Template_Core';
+        $classs['load'] = 'Loader_Core';
+        $classs['param'] = 'Param_Core';
         
         if(isset($classs[$name])){
             if(!isset(self::$objs[$name])){
