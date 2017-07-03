@@ -5,7 +5,7 @@
  * @copyright 2014
  */
 
-class Router_Base {
+class Router_Core {
     static $_instance;
     const URL_PHPINFO = 1;
     const URL_GET = 0;
