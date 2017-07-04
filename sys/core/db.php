@@ -27,9 +27,7 @@ class Db_Core {
     {
         $file = APPPATH . 'config/database.php';
         if (is_file($file)) {
-            require ($file);
-            $this->config = $db;
-            unset($db);
+            $this->config = include($file);
         } else {
             error('Not found database config file : ' . $file);
         }
