@@ -17,19 +17,26 @@ class Db_Core {
         $this->_initialize();
     }
     
+    public function set_config($config)
+    {
+        
+    }
+    
     public static function init()
     {
-        self::$driver = $driver;
+        isset($this->config['DEFAULT']['dbdriver']) && self::$driver = $this->config['DEFAULT']['dbdriver'];
 		self::$db = new $driver;
 		self::$db->set_config($config);
 		self::$db->connect();
     }
 
-    private function _load_config()
+    private function _load_config($name='')
     {
+        $name = empty($name) ? 'DEFAULT' : $name;
         $file = APPPATH . 'config/database.php';
         if (is_file($file)) {
-            $this->config = include($file);
+            $config = include($file);
+            $this->config = $config[$name];
         } else {
             error('Not found database config file : ' . $file);
         }

@@ -6,7 +6,7 @@
  */
 
 return array(
-    'AAA'=>array(
+    'DEFAULT'=>array(
         'dbhost'=>'127.0.0.1',
         'dbuser'=>'root',
         'dbpwd'=>'',
