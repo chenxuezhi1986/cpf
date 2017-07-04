@@ -9,17 +9,10 @@ class Mysql_Driver
 {
     private $config;
     private $curlink;
-    
-    public function connect()
+
+    public function connect($dbhost, $dbuser, $dbpwd, $dbcharset, $dbname, $pconnect)
     {
-        $dbhost = isset($this->config['dbhost']) ? $this->config['dbhost'] : 'localhost';
-        $dbuser = isset($this->config['dbuser']) ? $this->config['dbuser'] : 'root';
-        $dbpwd = isset($this->config['dbpwd']) ? $this->config['dbpwd'] : '';
-        $dbcharset = isset($this->config['dbcharset']) ? $this->config['dbcharset'] : 'utf8';
-        $dbname = isset($this->config['dbname']) ? $this->config['dbname'] : '';
-        $pconnect = $this->config['pconnect'];
-        
-        if ($pconnect === true) {
+        if ($pconnect) {
             $link = @mysql_pconnect($dbhost, $dbuser, $dbpwd, MYSQL_CLIENT_COMPRESS);
         } else {
             $link = @mysql_connect($dbhost, $dbuser, $dbpwd, 1, MYSQL_CLIENT_COMPRESS);
@@ -27,6 +20,14 @@ class Mysql_Driver
         if (!$link) {
             error('Database could not connect code : ' . $this->errno());
         } else {
+            $this->config = array(
+                'dbhost' => $dbhost,
+                'dbuser' => $dbuser,
+                'dbpwd' => $dbpwd,
+                'dbcharset' => $dbcharset,
+                'dbname' => $dbname,
+                'pconnect' => $pconnect);
+
             $this->curlink = $link;
             if ($this->version() > '4.1') {
                 $serverset = $dbcharset ? 'character_set_connection=' . $dbcharset .
@@ -39,18 +40,7 @@ class Mysql_Driver
         }
         return $link;
     }
-    
-    /**
-     * 设置配置
-     */ 
-    public function set_config($config)
-    {
-        $this->config = $config;
-    }
-    
-    /**
-     * 选择数据库
-     */ 
+
     public function select_db($dbname)
     {
         return mysql_select_db($dbname, $this->curlink);
@@ -88,17 +78,12 @@ class Mysql_Driver
         }
 
         $func = $unbuffered ? 'mysql_unbuffered_query' : 'mysql_query';
-        
+
         if (!($query = $func($sql, $this->curlink))) {
             if (in_array($this->errno(), array(2006, 2013)) && substr($silent, 0, 5) != 'RETRY') {
-                $this->curlink = $this->connect(
-                    $this->config['dbhost'],
-                    $this->config['dbuser'],
-                    $this->config['dbpwd'],
-                    $this->config['dbcharset'],
-                    $this->config['dbname'],
-                    $this->config['pconnect']
-                );
+                $this->curlink = $this->connect($this->config['dbhost'], $this->config['dbuser'],
+                    $this->config['dbpwd'], $this->config['dbcharset'], $this->config['dbname'], $this->
+                    config['pconnect']);
                 return $this->query($sql, 'RETRY' . $silent);
             }
 
