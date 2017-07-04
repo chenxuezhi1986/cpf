@@ -24,9 +24,9 @@ class Db_Core {
     
     public static function init()
     {
-        isset($this->config['DEFAULT']['dbdriver']) && self::$driver = $this->config['DEFAULT']['dbdriver'];
-		self::$db = new $driver;
-		self::$db->set_config($config);
+        isset($this->config['dbdriver']) && self::$driver = $this->config['dbdriver'];
+		self::$db = new self::$driver;
+		self::$db->set_config($this->config);
 		self::$db->connect();
     }
 
