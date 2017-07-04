@@ -10,12 +10,14 @@ class Db_Core {
 	public static $driver;
     public static $instance;
     
+    private $config = array();
+    
     public function __construct()
     {
         $this->_initialize();
     }
     
-    public static function init($driver, $config)
+    public static function init()
     {
         self::$driver = $driver;
 		self::$db = new $driver;
