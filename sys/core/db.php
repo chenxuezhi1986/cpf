@@ -17,57 +17,35 @@ class Db_Core {
         $this->_initialize();
     }
     
-    public function set_config($config)
+    public static function object()
     {
-        
+        return self::$db;
     }
     
-    public static function init()
+    public static function init($name)
     {
-        isset($this->config['dbdriver']) && self::$driver = $this->config['dbdriver'];
-		self::$db = new self::$driver;
-		self::$db->set_config($this->config);
-		self::$db->connect();
+        //加载配置
+        $config = self::load_config($name);
+        
+        if(!empty($config['dbdriver'])){
+            self::$driver = $config['dbdriver'];
+    		self::$db = new self::$driver; //实例化驱动
+    		self::$db->set_config($config); //设置配置
+    		self::$db->connect(); //连接数据库
+        }
     }
 
-    private function _load_config($name='')
+    public static function load_config($name='')
     {
+        $config = array();
         $name = empty($name) ? 'DEFAULT' : $name;
         $file = APPPATH . 'config/database.php';
         if (is_file($file)) {
             $config = include($file);
-            $this->config = $config[$name];
         } else {
             error('Not found database config file : ' . $file);
         }
-    }
-    
-    private function _set_mem_var()
-    {
-        if (isset($this->config[$this->db_config_id])) {
-            $this->cur_db_config = $this->config[$this->db_config_id];
-            foreach ($this->cur_db_config as $key => $val) {
-                if (isset($this->$key)) {
-                    $this->$key = $val;
-                }
-            }
-        } else {
-            error('Not found database is config : ' . $this->db_config_id);
-        }
-    }
-
-    private function _load_driver()
-    {
-        $class_name = $this->dbdriver . '_driver';
-        $file = BASEPATH . 'driver/' . $this->dbdriver . '_driver.php';
-        if (is_file($file)) {
-            require_once ($file);
-            if (class_exists($class_name, false)) {
-                $this->driver = new $class_name;
-            }
-        } else {
-            error('Not found database driver file : ' . $file);
-        }
+        return $config;
     }
     
     private function _initialize()
@@ -83,17 +61,6 @@ class Db_Core {
         
         //连接数据库
         $this->driver->connect($this->dbhost, $this->dbuser, $this->dbpwd, $this->dbcharset, $this->dbname, $this->pconnect);
-    }
-    
-    public function set_db_config_id($db_config_id)
-    {
-        $this->db_config_id = $db_config_id;
-        $this->_initialize();
-    }
-
-    public function get_cur_db_config()
-    {
-        return $this->cur_db_config;
     }
 
     public function delete($table, $where)
