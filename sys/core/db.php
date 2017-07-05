@@ -14,7 +14,7 @@ class Db_Core {
     
     public function __construct()
     {
-        $this->_initialize();
+        self::init();
     }
     
     public static function object()
@@ -46,21 +46,6 @@ class Db_Core {
             error('Not found database config file : ' . $file);
         }
         return $config;
-    }
-    
-    private function _initialize()
-    {
-        //加载配置
-        $this->_load_config();
-        
-        //设置成员变量
-        $this->_set_mem_var();
-        
-        //加载驱动
-        $this->_load_driver();
-        
-        //连接数据库
-        $this->driver->connect($this->dbhost, $this->dbuser, $this->dbpwd, $this->dbcharset, $this->dbname, $this->pconnect);
     }
 
     public function delete($table, $where)
