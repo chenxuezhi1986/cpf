@@ -2,7 +2,7 @@
 
 /**
  * @author chenxuezhi
- * @copyright 2014
+ * @copyright 20147
  */
 
 define('C_DEBUG', true);
