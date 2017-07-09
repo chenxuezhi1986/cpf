@@ -5,7 +5,7 @@
  * @copyright 2014
  */
 
-class Welcome_Model extends Model_Core{
+class Welcome_Model {
     
     public $db_config_id = 1; //数据库配置号
 

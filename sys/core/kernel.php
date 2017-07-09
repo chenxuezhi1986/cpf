@@ -15,7 +15,7 @@ class Kernel {
 
         spl_autoload_register(array('Kernel', '_autoload')); //设置自动加载函数
         set_error_handler(array('Error_Core', 'error_handler')); //自定义错误方法
-        require_once (BASEPATH . 'base/common.php'); //函数库
+        require_once (BASEPATH . 'core/common.php'); //函数库
     }
 
     public static function &__this()
@@ -116,7 +116,7 @@ class Kernel {
 
             self::$debug_info['memory_usage'] = $memory_size;
             self::$debug_info['runtime'] = self::_microtime() - C_TIMEMICRO;
-            require(BASEPATH.'base/debug.php');
+            require(BASEPATH.'core/debug.php');
         }
     }
 }

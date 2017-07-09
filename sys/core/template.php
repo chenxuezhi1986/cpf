@@ -68,3 +68,7 @@ class Template_Core {
         return self::$_instance;
     }
 }
+
+class Tpl extends Template_Core{
+    
+}

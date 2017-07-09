@@ -79,3 +79,7 @@ class Loader_Core {
         }
     }
 }
+
+class Load extends Loader_Core{
+
+}
