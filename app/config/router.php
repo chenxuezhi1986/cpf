@@ -5,10 +5,12 @@
  * @copyright 2014
  */
 
-$router['url_mode'] = 1;
-$router['deft_ctl'] = 'welcome';
-$router['deft_act'] = 'index';
-$router['event_map'] = array(
-    'ccc'=>'hh',
-    'test' => 'welcome'
+return array(
+	'url_mode'=>1,
+	'deft_ctl'=>'welcome',
+	'deft_act'=>'index',
+	'event_maps'=>array(
+	    'ccc'=>'hh',
+	    'test'=>'welcome'
+	),
 );

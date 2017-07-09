@@ -7,13 +7,14 @@
 
 class Router_Core {
     static $_instance;
+
     const URL_PHPINFO = 1;
     const URL_GET = 0;
     
     private $url_mode = 1;
     private $deft_ctl = '';
     private $deft_act = '';
-    private $event_map = array();
+    private $event_maps = array();
 
     function __construct()
     {
@@ -22,18 +23,23 @@ class Router_Core {
 
     private function _init()
     {
-        $filename = APPPATH . 'config/router.php';
-        if (is_file($filename)) {
-            include ($filename);
-            if (isset($router) && is_array($router) > 0) {
-                foreach ($router as $key => $val) {
-                    if (isset($this->$key)) {
-                        $this->$key = $val;
-                    }
+        $file = APPPATH . 'config/router.php';
+        if (is_file($file)) {
+            $config = include ($file);
+            foreach ($config as $key => $val) {
+                if (isset($this->$key)) {
+                    $this->$key = $val;
                 }
-                unset($router);
             }
+            unset($router);
         }
+    }
+
+    public function load_config()
+    {
+        $file = APPPATH . 'config/router.php';
+        $this->config = include($file);
+
     }
 
     public function get_event()
@@ -85,8 +91,8 @@ class Router_Core {
     //URI重定向
     private function _uri_map($uri)
     {
-        if (count($this->event_map) > 0) {
-            foreach ($this->event_map as $key => $val) {
+        if (count($this->event_maps) > 0) {
+            foreach ($this->event_maps as $key => $val) {
                 if (preg_match('#^' . $key . '$#', $uri)) {
                     $uri = preg_replace('#^' . $key . '$#', $val, $uri);
                     break;
