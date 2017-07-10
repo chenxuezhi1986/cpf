@@ -13,7 +13,7 @@ class Kernel {
         define('C_TIMESTAMP', $_SERVER['REQUEST_TIME']);
         define('C_TIMEMICRO', self::_microtime());
 
-        spl_autoload_register(array('Kernel', '_autoload')); //设置自动加载函数
+        spl_autoload_register(array('Kernel', '_autoload')); //注册自动加载函数
         set_error_handler(array('Error_Core', 'error_handler')); //自定义错误方法
         require_once (BASEPATH . 'core/common.php'); //函数库
     }

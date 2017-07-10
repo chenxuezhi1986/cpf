@@ -31,15 +31,7 @@ class Router_Core {
                     $this->$key = $val;
                 }
             }
-            unset($router);
         }
-    }
-
-    public function load_config()
-    {
-        $file = APPPATH . 'config/router.php';
-        $this->config = include($file);
-
     }
 
     public function get_event()
@@ -84,22 +76,22 @@ class Router_Core {
 
     private function _pathinfo_to_ctl($pathinfo)
     {
-        $uri = empty($pathinfo) ? $this->deft_ctl : $pathinfo;
-        return $this->_uri_map($uri);
+        $act = empty($pathinfo) ? $this->deft_ctl : $pathinfo;
+        return $this->_redirect($act);
     }
 
-    //URI重定向
-    private function _uri_map($uri)
+    //请求重定向
+    private function _redirect($act)
     {
         if (count($this->event_maps) > 0) {
             foreach ($this->event_maps as $key => $val) {
-                if (preg_match('#^' . $key . '$#', $uri)) {
-                    $uri = preg_replace('#^' . $key . '$#', $val, $uri);
+                if (preg_match('#^' . $key . '$#', $act)) {
+                    $act = preg_replace('#^' . $key . '$#', $val, $act);
                     break;
                 }
             }
         }
-        return $uri;
+        return $act;
     }
 
     private function _XSS($str)

@@ -48,174 +48,95 @@ class Db_Core {
         return $config;
     }
 
-	public static function table($table) {
-		return self::$db->table_name($table);
+	public static function insert_id() {
+		return self::$db->insert_id();
 	}
 
-    public function delete($table, $where)
-    {
-        if ($this->pconnect === false) {
-            $this->driver->connect($this->dbhost, $this->dbuser, $this->dbpwd, $this->
-                dbcharset, $this->dbname, $this->pconnect);
-        }
+	public static function fetch($resourceid, $type = MYSQL_ASSOC) {
+		return self::$db->fetch_array($resourceid, $type);
+	}
 
-        if ($where) {
-            $where = ' where ' . $where;
-        }
-        $sql = 'delete from ' . $this->dbprefix . $table . $where;
-        $result = $this->driver->query($sql);
+	public static function fetch_first($sql, $arg = array(), $silent = false) {
+		$res = self::query($sql, $arg, $silent, false);
+		$ret = self::$db->fetch_array($res);
+		self::$db->free_result($res);
+		return $ret ? $ret : array();
+	}
 
-        if ($this->pconnect === false) {
-            $this->driver->close();
-        }
+	public static function fetch_all($sql, $arg = array(), $keyfield = '', $silent=false) {
 
-        return $result;
-    }
+		$data = array();
+		$query = self::query($sql, $arg, $silent, false);
+		while ($row = self::$db->fetch_array($query)) {
+			if ($keyfield && isset($row[$keyfield])) {
+				$data[$row[$keyfield]] = $row;
+			} else {
+				$data[] = $row;
+			}
+		}
+		self::$db->free_result($query);
+		return $data;
+	}
+    
+	public static function result($resourceid, $row = 0) {
+		return self::$db->result($resourceid, $row);
+	}
+    
+	public static function result_first($sql, $arg = array(), $silent = false) {
+		$res = self::query($sql, $arg, $silent, false);
+		$ret = self::$db->result($res, 0);
+		self::$db->free_result($res);
+		return $ret;
+	}
+    
+	public static function query($sql, $arg = array(), $silent = false, $unbuffered = false) {
+		if (!empty($arg)) {
+			if (is_array($arg)) {
+				$sql = self::format($sql, $arg);
+			} elseif ($arg === 'SILENT') {
+				$silent = true;
 
-    public function update($table, $set, $where = '')
-    {
-        if ($this->pconnect === false) {
-            $this->driver->connect($this->dbhost, $this->dbuser, $this->dbpwd, $this->
-                dbcharset, $this->dbname, $this->pconnect);
-        }
+			} elseif ($arg === 'UNBUFFERED') {
+				$unbuffered = true;
+			}
+		}
+		self::checkquery($sql);
 
-        if (is_array($set)) {
-            $fields = '';
-            foreach ($set as $key => $val) {
-                $fields .= ',' . $key . ' = ' . "'$val'";
-            }
+		$ret = self::$db->query($sql, $silent, $unbuffered);
+		if (!$unbuffered && $ret) {
+			$cmd = trim(strtoupper(substr($sql, 0, strpos($sql, ' '))));
+			if ($cmd === 'SELECT') {
 
-            if ($where) {
-                $where = ' where ' . $where;
-            }
-
-            $sql = 'update ' . $this->dbprefix . $table . ' set ' . ltrim($fields, ',') . $where;
-            $result = $this->driver->query($sql);
-
-            if ($this->pconnect === false) {
-                $this->driver->close();
-            }
-
-            return $result;
-        }
-
-    }
-
-    public function insert($table, $data, $ret_insert_id = false)
-    {
-        if ($this->pconnect === false) {
-            $this->driver->connect($this->dbhost, $this->dbuser, $this->dbpwd, $this->
-                dbcharset, $this->dbname, $this->pconnect);
-        }
-
-        if (is_array($data)) {
-            $fields = '';
-            $values = '';
-            foreach ($data as $key => $val) {
-                $fields .= ',' . $key;
-                $values .= ',\'' . $val . '\'';
-            }
-
-            $sql = 'insert into ' . $this->dbprefix . $table . ' (' . ltrim($fields, ',') .
-                ') ' . 'values(' . ltrim($values, ',') . ')';
-            $result = $this->driver->query($sql);
-
-            if ($ret_insert_id) {
-                $result = $this->driver->insert_id();
-            }
-
-            if ($this->pconnect === false) {
-                $this->driver->close();
-            }
-
-            return $result;
-        }
-    }
-
-    public function get($opt)
-    {
-        if ($this->pconnect === false) {
-            $this->driver->connect($this->dbhost, $this->dbuser, $this->dbpwd, $this->
-                dbcharset, $this->dbname, $this->pconnect);
-        }
-
-        $data = array();
-        $sql = $this->_build_select_sql($opt);
-
-        if (isset($opt['cached']) && $opt['cached'] === true) {
-            $cache_time = isset($opt['cache_time']) ? intval($opt['cache_time']) : 1800; //缓存时间/秒
-            //检查目录是否存在，否则创建
-            if(!is_dir($this->cache_dir)){
-                @mkdir($this->cache_dir);
-            }
-            $file = $this->cache_dir . md5($sql) . '.txt';
-            if (is_file($file) && C_TIMESTAMP - filemtime($file) < $cache_time) {
-                $fp = fopen($file, "r");
-                $str = fread($fp, filesize($file));
-                $data = unserialize($str);
-            } else {
-                $query = $this->driver->query($sql);
-                while ($rows = $this->driver->fetch_array($query)) {
-                    $data[] = $rows;
-                }
-                $fp = fopen($file, 'w');
-                fwrite($fp, serialize($data));
-            }
-            fclose($fp);
-        } else {
-            $query = $this->driver->query($sql);
-            while ($rows = $this->driver->fetch_array($query)) {
-                $data[] = $rows;
-            }
-        }
-
-        if ($this->pconnect === false) {
-            $this->driver->close();
-        }
-
-        return $data;
-    }
-
-    private function _build_select_sql($opt)
-    {
-        $sql = '';
-        $sql_tpl = array(
-            'select' => '',
-            'from' => $this->dbprefix,
-            'where' => '',
-            'group_by' => '',
-            'order_by' => '',
-            'limit' => '');
-        foreach ($opt as $key => $val) {
-            if (isset($sql_tpl[$key])) {
-                $dft_val = $sql_tpl[$key];
-                if (strpos($key, '_')) {
-                    $key = str_replace('_', ' ', $key);
-                }
-                $sql .= "{$key} {$dft_val}{$val} ";
-            }
-        }
-        return $sql;
-    }
-
-    public function show_tables()
-    {
-        $query = $this->driver->query('show tables');
-        $data = array();
-        while ($row = $this->driver->fetch_array($query)) {
-            $data[] = $row['Tables_in_' . $this->dbname];
-        }
-        $this->driver->close();
-        return $data;
-    }
-
-    public static function get_instance()
-    {
-        if (self::$_instance instanceof self) {
-            return self::$_instance;
-        }
-        $class_name = get_called_class(); //获取子类类名，需要PHP>=5.3.0才支持
-        self::$_instance = new $class_name();
-        return self::$_instance;
-    }
+			} elseif ($cmd === 'UPDATE' || $cmd === 'DELETE') {
+				$ret = self::$db->affected_rows();
+			} elseif ($cmd === 'INSERT') {
+				$ret = self::$db->insert_id();
+			}
+		}
+		return $ret;
+	}
+    
+	public static function num_rows($resourceid) {
+		return self::$db->num_rows($resourceid);
+	}
+    
+	public static function affected_rows() {
+		return self::$db->affected_rows();
+	}
+    
+	public static function free_result($query) {
+		return self::$db->free_result($query);
+	}
+    
+	public static function error() {
+		return self::$db->error();
+	}
+    
+	public static function errno() {
+		return self::$db->errno();
+	}
+    
+	public static function checkquery($sql) {
+		return $sql;
+	}
 }
