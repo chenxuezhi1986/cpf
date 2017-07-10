@@ -48,6 +48,10 @@ class Db_Core {
         return $config;
     }
 
+	public static function table($table) {
+		return self::$db->table_name($table);
+	}
+
     public function delete($table, $where)
     {
         if ($this->pconnect === false) {
