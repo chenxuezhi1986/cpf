@@ -48,23 +48,26 @@ class Db_Core {
         return $config;
     }
 
-	public static function insert_id() {
+	public static function insert_id() 
+    {
 		return self::$db->insert_id();
 	}
 
-	public static function fetch($resourceid, $type = MYSQL_ASSOC) {
+	public static function fetch($resourceid, $type = MYSQL_ASSOC) 
+    {
 		return self::$db->fetch_array($resourceid, $type);
 	}
 
-	public static function fetch_first($sql, $arg = array(), $silent = false) {
+	public static function fetch_first($sql, $arg = array(), $silent = false) 
+    {
 		$res = self::query($sql, $arg, $silent, false);
 		$ret = self::$db->fetch_array($res);
 		self::$db->free_result($res);
 		return $ret ? $ret : array();
 	}
 
-	public static function fetch_all($sql, $arg = array(), $keyfield = '', $silent=false) {
-
+	public static function fetch_all($sql, $arg = array(), $keyfield = '', $silent=false) 
+    {
 		$data = array();
 		$query = self::query($sql, $arg, $silent, false);
 		while ($row = self::$db->fetch_array($query)) {
@@ -78,18 +81,21 @@ class Db_Core {
 		return $data;
 	}
     
-	public static function result($resourceid, $row = 0) {
+	public static function result($resourceid, $row = 0) 
+    {
 		return self::$db->result($resourceid, $row);
 	}
     
-	public static function result_first($sql, $arg = array(), $silent = false) {
+	public static function result_first($sql, $arg = array(), $silent = false) 
+    {
 		$res = self::query($sql, $arg, $silent, false);
 		$ret = self::$db->result($res, 0);
 		self::$db->free_result($res);
 		return $ret;
 	}
     
-	public static function query($sql, $arg = array(), $silent = false, $unbuffered = false) {
+	public static function query($sql, $arg = array(), $silent = false, $unbuffered = false) 
+    {
 		if (!empty($arg)) {
 			if (is_array($arg)) {
 				$sql = self::format($sql, $arg);
@@ -116,27 +122,33 @@ class Db_Core {
 		return $ret;
 	}
     
-	public static function num_rows($resourceid) {
+	public static function num_rows($resourceid) 
+    {
 		return self::$db->num_rows($resourceid);
 	}
     
-	public static function affected_rows() {
+	public static function affected_rows() 
+    {
 		return self::$db->affected_rows();
 	}
     
-	public static function free_result($query) {
+	public static function free_result($query) 
+    {
 		return self::$db->free_result($query);
 	}
     
-	public static function error() {
+	public static function error() 
+    {
 		return self::$db->error();
 	}
     
-	public static function errno() {
+	public static function errno() 
+    {
 		return self::$db->errno();
 	}
     
-	public static function checkquery($sql) {
+	public static function checkquery($sql) 
+    {
 		return $sql;
 	}
 }
