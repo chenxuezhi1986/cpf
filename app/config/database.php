@@ -9,8 +9,8 @@ return array(
     'DEFAULT'=>array(
         'dbhost'=>'127.0.0.1',
         'dbuser'=>'root',
-        'dbpwd'=>'',
-        'dbname'=>'xishuashua',
+        'dbpwd'=>'123456',
+        'dbname'=>'test',
         'dbdriver'=>'mysql',
         'dbprefix'=>'c_',
         'pconnect'=>false,
