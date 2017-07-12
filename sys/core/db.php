@@ -20,7 +20,7 @@ class Db_Core {
         $this->_load_config($config_name);
         
         if(!empty($this->config['dbdriver'])){
-            $driver = $this->config['dbdriver'];
+            $driver = ucfirst($this->config['dbdriver']).'_Driver';
     		$this->db = new $driver; //实例化驱动
     		$this->db->set_config($this->config); //设置配置
     		$this->db->connect(); //连接数据库

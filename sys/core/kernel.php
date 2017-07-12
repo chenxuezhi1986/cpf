@@ -68,24 +68,15 @@ class Kernel {
     {
         $class = strtolower($class);
 
-        //支持load、db、tpl类::静态方式调用
-        $cls_maps = array(
-            'load'=>'loader_core',
-            'db'=>'model_core',
-            'tpl'=>'template_core'
-        );
-        isset($cls_maps[$class]) && $class = $cls_maps[$class];
-
         if ($pos = strrpos($class, '_')) {
             $name = substr($class, 0, $pos);
             $exts = substr($class, $pos + 1);
 
-            if ($exts == 'model') {
-                $name = $class;
-            }
+            if ($exts == 'model') $name = $class;
 
             $paths['core'] = BASEPATH . 'core/';
             $paths['lib'] = BASEPATH . 'lib/';
+            $paths['driver'] = BASEPATH . 'driver/';
             $paths['model'] = APPPATH . 'models/';
             $paths['controller'] = APPPATH . 'controller/';
 

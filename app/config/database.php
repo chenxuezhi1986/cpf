@@ -14,7 +14,6 @@ return array(
         'dbdriver'=>'mysql',
         'dbprefix'=>'c_',
         'pconnect'=>false,
-        'cache_dir'=>'./data/sqlcache/',
         'dbcharset'=>'utf8'
     ),
     'BBB'=>array(
@@ -25,7 +24,6 @@ return array(
         'dbdriver'=>'mysql',
         'dbprefix'=>'c_',
         'pconnect'=>false,
-        'cache_dir'=>'./data/sqlcache/',
         'dbcharset'=>'utf8'
     )
 );
