@@ -22,7 +22,7 @@ class Controller_Core
     
     //控制器快捷方法映射如：$this->load
     public function __get($name) {
-        $classs['db'] = 'Model_Core';
+        $classs['db'] = 'Db_Core';
         $classs['tpl'] = 'Template_Core';
         $classs['load'] = 'Loader_Core';
         $classs['param'] = 'Param_Core';

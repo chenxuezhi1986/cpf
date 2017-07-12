@@ -6,95 +6,90 @@
  */
 
 class Db_Core {
-    public static $db;
-	public static $driver;
-    public static $instance;
-    
-    private $config = array();
-    
-    public function __construct()
+    protected $db;
+    protected $config = array();
+
+    public function __construct($config_name='DEFAULT')
     {
-        self::init();
+        $this->initialize($config_name);
     }
     
-    public static function object()
+    public function initialize($config_name)
     {
-        return self::$db;
-    }
-    
-    public static function init($name)
-    {
-        //加载配置
-        $config = self::load_config($name);
+        //加载配置文件
+        $this->_load_config($config_name);
         
-        if(!empty($config['dbdriver'])){
-            self::$driver = $config['dbdriver'];
-    		self::$db = new self::$driver; //实例化驱动
-    		self::$db->set_config($config); //设置配置
-    		self::$db->connect(); //连接数据库
+        if(!empty($this->config['dbdriver'])){
+            $driver = $this->config['dbdriver'];
+    		$this->db = new $driver; //实例化驱动
+    		$this->db->set_config($this->config); //设置配置
+    		$this->db->connect(); //连接数据库
         }
     }
 
-    public static function load_config($name='')
+    private function _load_config($config_name)
     {
-        $config = array();
-        $name = empty($name) ? 'DEFAULT' : $name;
         $file = APPPATH . 'config/database.php';
         if (is_file($file)) {
-            $config = include($file);
+            $configs = include($file);
+            $this->config = $configs[$config_name];
         } else {
             error('Not found database config file : ' . $file);
         }
-        return $config;
     }
-
-	public static function insert_id() 
+    
+    public function get_config()
     {
-		return self::$db->insert_id();
+        return $this->config;
+    }
+    
+	public function insert_id() 
+    {
+		return $this->db->insert_id();
 	}
 
-	public static function fetch($resourceid, $type = MYSQL_ASSOC) 
+	public function fetch($resourceid, $type = MYSQL_ASSOC) 
     {
-		return self::$db->fetch_array($resourceid, $type);
+		return $this->db->fetch_array($resourceid, $type);
 	}
 
-	public static function fetch_first($sql, $arg = array(), $silent = false) 
+	public function fetch_first($sql, $arg = array(), $silent = false) 
     {
-		$res = self::query($sql, $arg, $silent, false);
-		$ret = self::$db->fetch_array($res);
-		self::$db->free_result($res);
+		$res = $this->query($sql, $arg, $silent, false);
+		$ret = $this->db->fetch_array($res);
+		$this->db->free_result($res);
 		return $ret ? $ret : array();
 	}
 
-	public static function fetch_all($sql, $arg = array(), $keyfield = '', $silent=false) 
+	public function fetch_all($sql, $arg = array(), $keyfield = '', $silent=false) 
     {
 		$data = array();
-		$query = self::query($sql, $arg, $silent, false);
-		while ($row = self::$db->fetch_array($query)) {
+		$query = $this->query($sql, $arg, $silent, false);
+		while ($row = $this->db->fetch_array($query)) {
 			if ($keyfield && isset($row[$keyfield])) {
 				$data[$row[$keyfield]] = $row;
 			} else {
 				$data[] = $row;
 			}
 		}
-		self::$db->free_result($query);
+		$this->db->free_result($query);
 		return $data;
 	}
     
-	public static function result($resourceid, $row = 0) 
+	public function result($resourceid, $row = 0) 
     {
-		return self::$db->result($resourceid, $row);
+		return $this->db->result($resourceid, $row);
 	}
     
-	public static function result_first($sql, $arg = array(), $silent = false) 
+	public function result_first($sql, $arg = array(), $silent = false) 
     {
-		$res = self::query($sql, $arg, $silent, false);
-		$ret = self::$db->result($res, 0);
-		self::$db->free_result($res);
+		$res = $this->query($sql, $arg, $silent, false);
+		$ret = $this->db->result($res, 0);
+		$this->db->free_result($res);
 		return $ret;
 	}
     
-	public static function query($sql, $arg = array(), $silent = false, $unbuffered = false) 
+	public function query($sql, $arg = array(), $silent = false, $unbuffered = false) 
     {
 		if (!empty($arg)) {
 			if (is_array($arg)) {
@@ -106,48 +101,48 @@ class Db_Core {
 				$unbuffered = true;
 			}
 		}
-		self::checkquery($sql);
+        $this->_checkquery($sql);
 
-		$ret = self::$db->query($sql, $silent, $unbuffered);
+		$ret = $this->db->query($sql, $silent, $unbuffered);
 		if (!$unbuffered && $ret) {
 			$cmd = trim(strtoupper(substr($sql, 0, strpos($sql, ' '))));
 			if ($cmd === 'SELECT') {
 
 			} elseif ($cmd === 'UPDATE' || $cmd === 'DELETE') {
-				$ret = self::$db->affected_rows();
+				$ret = $this->db->affected_rows();
 			} elseif ($cmd === 'INSERT') {
-				$ret = self::$db->insert_id();
+				$ret = $this->db->insert_id();
 			}
 		}
 		return $ret;
 	}
     
-	public static function num_rows($resourceid) 
+	public function num_rows($resourceid) 
     {
-		return self::$db->num_rows($resourceid);
+		return $this->db->num_rows($resourceid);
 	}
     
-	public static function affected_rows() 
+	public function affected_rows() 
     {
-		return self::$db->affected_rows();
+		return $this->db->affected_rows();
 	}
     
-	public static function free_result($query) 
+	public function free_result($query) 
     {
-		return self::$db->free_result($query);
+		return $this->db->free_result($query);
 	}
     
-	public static function error() 
+	public function error() 
     {
-		return self::$db->error();
+		return $this->db->error();
 	}
     
-	public static function errno() 
+	public function errno() 
     {
-		return self::$db->errno();
+		return $this->db->errno();
 	}
     
-	public static function checkquery($sql) 
+	private function _checkquery($sql) 
     {
 		return $sql;
 	}
