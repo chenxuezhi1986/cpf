@@ -10,7 +10,7 @@ class Welcome_Controller extends Controller_Core{
     public function index()
     {
     	$sql = "select * from  user";
-        $data = $this->db->query($sql);
+        $data = $this->db->query($sql, 'username');
         echo '<pre>';
         print_r($data);
         $this->load->model('welcome_model');

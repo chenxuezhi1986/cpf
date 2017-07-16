@@ -88,10 +88,10 @@ class Db_Core {
 		$this->db->free_result($res);
 		return $ret;
 	}
+
     
-	public function query($sql, $arg = array(), $silent = false, $unbuffered = false) 
+	public function query($sql, $keyfield = '', $arg = array(), $silent = false, $unbuffered = false) 
     {
-    	$ret = array();
 		if (!empty($arg)) {
 			if (is_array($arg)) {
 				$sql = self::format($sql, $arg);
@@ -103,21 +103,32 @@ class Db_Core {
 			}
 		}
         $this->_checkquery($sql);
-
+		
+		$data = array();
 		$query = $this->db->query($sql, $silent, $unbuffered);
 		if (!$unbuffered && $query) {
 			$cmd = trim(strtoupper(substr($sql, 0, strpos($sql, ' '))));
 			if ($cmd === 'SELECT') {
-				while ($row = $this->db->fetch_array($query)){
-					$ret[] = $row;
+				while ($row = $this->db->fetch_array($query)) {
+					if ($keyfield && isset($row[$keyfield])) {
+						$data[$row[$keyfield]] = $row;
+					} else {
+						$data[] = $row;
+					}
 				}
 			} elseif ($cmd === 'UPDATE' || $cmd === 'DELETE') {
-				$ret = $this->db->affected_rows();
+				$data = $this->db->affected_rows();
 			} elseif ($cmd === 'INSERT') {
-				$ret = $this->db->insert_id();
+				$data = $this->db->insert_id();
 			}
 		}
-		return $ret;
+		$this->db->free_result($query);
+		return $data;
+	}
+
+	public static function format($sql, $arg = array())
+	{
+		return $sql;
 	}
     
 	public function num_rows($resourceid) 
