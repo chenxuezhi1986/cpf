@@ -26,7 +26,7 @@ class Controller_Core
         $classs['tpl'] = 'Template_Core';
         $classs['load'] = 'Loader_Core';
         $classs['param'] = 'Param_Core';
-        
+
         if(isset($classs[$name])){
             if(!isset(self::$objs[$name])){
                 self::$objs[$name] = new $classs[$name];

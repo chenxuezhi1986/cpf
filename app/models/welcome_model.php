@@ -5,20 +5,15 @@
  * @copyright 2014
  */
 
-class Welcome_Model {
+class Welcome_Model extends Model_Core{
     
     public $db_config_id = 1; //数据库配置号
 
     public function say()
     {
-        $opt['cached'] = true;
-        $opt['select'] = '*';
-        $opt['from'] = 'search_items';
-        //$opt['where'] = 'id in(1,2,3) and userid = 123';
-        $opt['order_by'] = 'sid desc';
-        //$opt['limit'] = '1,2';
-        $data = $this->get($opt);
-        return $data;
+        $sql = "select * from  user";
+        $c = $this->db->query($sql);
+        print_r($c);
     }
     
     public function hi()

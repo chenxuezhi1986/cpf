@@ -58,8 +58,6 @@ class Mysql_Driver
 
     public function fetch_array($query, $result_type = MYSQL_ASSOC)
     {
-        if ($result_type == 'MYSQL_ASSOC')
-            $result_type = MYSQL_ASSOC;
         return mysql_fetch_array($query, $result_type);
     }
 

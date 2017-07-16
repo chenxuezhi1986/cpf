@@ -91,6 +91,7 @@ class Db_Core {
     
 	public function query($sql, $arg = array(), $silent = false, $unbuffered = false) 
     {
+    	$ret = array();
 		if (!empty($arg)) {
 			if (is_array($arg)) {
 				$sql = self::format($sql, $arg);
@@ -103,11 +104,13 @@ class Db_Core {
 		}
         $this->_checkquery($sql);
 
-		$ret = $this->db->query($sql, $silent, $unbuffered);
-		if (!$unbuffered && $ret) {
+		$query = $this->db->query($sql, $silent, $unbuffered);
+		if (!$unbuffered && $query) {
 			$cmd = trim(strtoupper(substr($sql, 0, strpos($sql, ' '))));
 			if ($cmd === 'SELECT') {
-
+				while ($row = $this->db->fetch_array($query)){
+					$ret[] = $row;
+				}
 			} elseif ($cmd === 'UPDATE' || $cmd === 'DELETE') {
 				$ret = $this->db->affected_rows();
 			} elseif ($cmd === 'INSERT') {
