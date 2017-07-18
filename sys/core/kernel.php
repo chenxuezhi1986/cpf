@@ -75,8 +75,8 @@ class Kernel {
             if ($exts == 'model') $name = $class;
 
             $paths['core'] = BASEPATH . 'core/';
-            $paths['lib'] = BASEPATH . 'lib/';
             $paths['driver'] = BASEPATH . 'driver/';
+            $paths['lib'] = APPPATH . 'lib/';
             $paths['model'] = APPPATH . 'models/';
             $paths['controller'] = APPPATH . 'controller/';
 

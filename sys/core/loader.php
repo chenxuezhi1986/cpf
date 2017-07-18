@@ -22,13 +22,8 @@ class Loader_Core {
 
         $filename = APPPATH . 'lib/' . $class . '.php';
         if(is_file($filename)){
-            $class_name = $class . '_extlib';
+            $class_name = $class . '_Lib';
         }else{
-            $filename = BASEPATH . 'lib/' . $class . '.php';
-            $class_name = $class . '_lib';
-        }
-        
-        if(!is_file($filename)){
             error('Not found file '.$filename);
         }
         
@@ -47,7 +42,7 @@ class Loader_Core {
      * @param string $name  变量名称
      * @return obj
      */
-    public static function model($model, $name = '', $db_conn = false)
+    public static function model($model, $name = '')
     {
         static $_classes = array();
         
@@ -78,8 +73,4 @@ class Loader_Core {
             error('Not found file ' . $filename);
         }
     }
-}
-
-class Load extends Loader_Core{
-
 }

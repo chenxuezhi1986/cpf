@@ -14,9 +14,8 @@ class Welcome_Controller extends Controller_Core{
         echo '<pre>';
         print_r($data);
         $this->load->model('welcome_model');
-        //$data['title'] = 'ooo';
+        $data['title'] = 'ooo';
         $data['content'] = $this->welcome_model->say();
-        //tpl::display('welcome', $data);
-        //print_r($data);
+        $this->view->display('welcome', $data);
     }
 }
