@@ -35,7 +35,7 @@ class Controller_Core
         }
     }
     
-    protected function view($filename, $data = array(), $get_contens = false)
+    protected function display($filename, $data = array(), $get_contens = false)
     {
         return View_Core::display($filename, $data, $get_contens);
     }
