@@ -1,4 +1,4 @@
-<?php if (!defined('BASEPATH')) exit('Access Denied');
+<?php if (!defined('SYSPATH')) exit('Access Denied');
 
 /**
  * @author chenxuezhi

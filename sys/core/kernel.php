@@ -1,4 +1,4 @@
-<?php if (!defined('BASEPATH')) exit('Access Denied');
+<?php if (!defined('SYSPATH')) exit('Access Denied');
 
 /**
  * @author chenxuezhi
@@ -15,7 +15,7 @@ class Kernel {
 
         spl_autoload_register(array('Kernel', '_autoload')); //注册自动加载函数
         set_error_handler(array('Error_Core', 'error_handler')); //自定义错误方法
-        require_once (BASEPATH . 'core/common.php'); //函数库
+        require_once (SYSPATH . 'core/common.php'); //函数库
     }
 
     public static function &__this()
@@ -74,8 +74,8 @@ class Kernel {
 
             if ($exts == 'model') $name = $class;
 
-            $paths['core'] = BASEPATH . 'core/';
-            $paths['driver'] = BASEPATH . 'driver/';
+            $paths['core'] = SYSPATH . 'core/';
+            $paths['driver'] = SYSPATH . 'driver/';
             $paths['lib'] = APPPATH . 'lib/';
             $paths['model'] = APPPATH . 'model/';
             $paths['controller'] = APPPATH . 'controller/';
@@ -107,7 +107,7 @@ class Kernel {
 
             self::$debug_info['memory_usage'] = $memory_size;
             self::$debug_info['runtime'] = self::_microtime() - C_TIMEMICRO;
-            require(BASEPATH.'core/debug.php');
+            require(SYSPATH.'core/debug.php');
         }
     }
 }
