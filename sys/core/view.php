@@ -10,6 +10,8 @@ class View_Core {
     static $_instance;
     static $view_dir = './app/view';
     static $view_exts = '.php';
+
+    private $cached = false;
     
     function __construct()
     {
@@ -29,9 +31,10 @@ class View_Core {
         }
     }
 
-    public function display($filename, $data = array(), $get_contents = false)
+    public function display($filename, $data = array(), $cached = false)
     {
         $view = self::$view_dir.'/'.$filename.self::$view_exts;
+        $this->cached = $cached;
         
         if (defined('C_DEBUG') && C_DEBUG) {
             static $views = array();
@@ -39,19 +42,19 @@ class View_Core {
             Kernel::$debug_info['views'] = $views;
         }
         
-        if($get_contents){
+        if($this->cached){
             ob_start();
         }
         
         if(!empty($data) && is_array($data)){
             foreach($data as $k=>$v){  
-                $GLOBALS[$k] = $v;
+                $$k = $v;
             }
         }
         
         include($view);
         
-        if($get_contents){
+        if($this->cached){
             $content = ob_get_contents();
             ob_end_clean();
             return $content;

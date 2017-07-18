@@ -13,7 +13,6 @@ class Welcome_Model extends Model_Core{
     {
         $sql = "select * from  user";
         $c = $this->db->query($sql);
-        print_r($c);
     }
     
     public function hi()

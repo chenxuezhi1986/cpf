@@ -90,6 +90,19 @@ class Kernel {
         }
     }
 
+    public static function debug_output()
+    {
+        $html = '';
+        foreach(Kernel::$debug_info as $key=>$val){ 
+            $html .= "<h2>$key</h2><pre>\r\n".var_export($val, true).'</pre>';
+        }
+$contents = <<<EOT
+<style type="text/css">#debug_info h1,h2{font-family:sans-serif;font-weight:400;font-size:.9em;margin:1px;padding:0}#debug_info h1{margin:0;text-align:left;padding:2px;background-color:#f0c040;color:#000;font-weight:700;font-size:1.2em}#debug_info h2{background-color:#9B410E;color:#fff;text-align:left;font-weight:700;padding:2px;border-top:1px solid #000}#debug_info{margin-top:20px}#debug_info pre{background:#f0ead8;margin:0;padding:5px}
+</style><div id="debug_info"><h1>Debug Console</h1>{$html}</div>
+EOT;
+    echo $contents;
+    }
+
     /**
      * 运行入口
      */
@@ -107,7 +120,7 @@ class Kernel {
 
             self::$debug_info['memory_usage'] = $memory_size;
             self::$debug_info['runtime'] = self::_microtime() - C_TIMEMICRO;
-            require(SYSPATH.'core/debug.php');
+            self::debug_output();
         }
     }
 }

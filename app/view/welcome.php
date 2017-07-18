@@ -9,7 +9,7 @@
 </head>
 
 <body>
-<strong><{$title}></strong></br>
+<strong><?php print_r($title);?></strong></br>
 
 <{$content}><{include file="123"}>
 </body>
