@@ -60,7 +60,7 @@ class Loader_Core {
             return $_classes[$class_name];
         }
 
-        $filename = APPPATH . 'models/' . $model . '.php';
+        $filename = APPPATH . 'model/' . $model . '.php';
         if (is_file($filename)) {
             if (class_exists($class_name) === false) {
                 error('Class \'' . $class_name . '\' not found ');

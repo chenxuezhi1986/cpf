@@ -88,7 +88,7 @@ class Error_Core extends Exception {
     {
         self::set_status_header(404);
         ob_start();
-        include (APPPATH . 'errors/404.html');
+        include (APPPATH . 'error/404.html');
         $content = ob_get_contents();
         ob_end_clean();
         return $content;

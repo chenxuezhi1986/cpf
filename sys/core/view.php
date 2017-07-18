@@ -8,7 +8,7 @@
 class View_Core {
     
     static $_instance;
-    static $view_dir = './app/views';
+    static $view_dir = './app/view';
     static $view_exts = '.php';
     
     function __construct()
