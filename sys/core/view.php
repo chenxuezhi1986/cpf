@@ -46,7 +46,7 @@ class View_Core {
         if(!empty($data) && is_array($data)){
             foreach($data as $k=>$v){  
                 $GLOBALS[$k] = $v;
-            } 
+            }
         }
         
         include($view);
