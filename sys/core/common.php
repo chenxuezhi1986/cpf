@@ -53,24 +53,3 @@ if (!function_exists('microtime_float')) {
         return ((float)$usec + (float)$sec);
     }
 }
-
-////purge("192.168.0.4", "/index.php");
-if (!function_exists('purge')) {
-    function purge($ip, $url)
-    {
-        $errstr = '';
-        $errno = '';
-        $fp = fsockopen($ip, 80, $errno, $errstr, 2);
-        if (!$fp) {
-            return false;
-        } else {
-            $out = "PURGE $url HTTP/1.1\r\n";
-            $out .= "Host:blog.zyan.cc\r\n";
-            $out .= "Connection: close\r\n\r\n";
-            fputs($fp, $out);
-            $out = fgets($fp, 4096);
-            fclose($fp);
-            return true;
-        }
-    }
-}
