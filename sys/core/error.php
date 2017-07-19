@@ -69,8 +69,7 @@ class Error_Core extends Exception {
         }
 
         if ($text == '') {
-            show_error('No status text available.  Please check your status code number or supply your own message text.',
-                500);
+            show_error('No status text available.  Please check your status code number or supply your own message text.', 500);
         }
 
         $server_protocol = (isset($_SERVER['SERVER_PROTOCOL'])) ? $_SERVER['SERVER_PROTOCOL'] : false;
@@ -88,7 +87,7 @@ class Error_Core extends Exception {
     {
         self::set_status_header(404);
         ob_start();
-        include (APPPATH . 'error/404.html');
+        include (APPPATH . 'errors/404.html');
         $content = ob_get_contents();
         ob_end_clean();
         return $content;

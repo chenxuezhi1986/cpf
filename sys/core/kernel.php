@@ -30,7 +30,7 @@ class Kernel {
     {
         $router = Router_Core::get_instance();
         $event = $router->get_event();
-        $filename = APPPATH . 'controller/' . $event['ctl'] . '.php';
+        $filename = APPPATH . 'controllers/' . $event['ctl'] . '.php';
         if (is_file($filename)) {
             $class_name = $event['ctl'] . '_controller';
             if (class_exists($class_name) === false) {
@@ -76,9 +76,9 @@ class Kernel {
 
             $paths['core'] = SYSPATH . 'core/';
             $paths['driver'] = SYSPATH . 'driver/';
-            $paths['lib'] = APPPATH . 'lib/';
-            $paths['model'] = APPPATH . 'model/';
-            $paths['controller'] = APPPATH . 'controller/';
+            $paths['lib'] = APPPATH . 'libs/';
+            $paths['model'] = APPPATH . 'models/';
+            $paths['controller'] = APPPATH . 'controllers/';
 
             if (isset($paths[$exts])) {
                 $file = $paths[$exts] . $name . '.php';
