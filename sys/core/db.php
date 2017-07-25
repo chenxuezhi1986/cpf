@@ -43,6 +43,21 @@ class Db_Core
     {
         return $this->config;
     }
+    
+    public function transaction()
+    {
+        $this->db->query('START TRANSACTION');
+    }
+    
+    public function rollback()
+    {
+        $this->db->query('ROLLBACK');
+    }
+    
+    public function commit()
+    {
+        $this->db->query('COMMIT');
+    }    
 
     public function rows($sql, $arg = array())
     {
