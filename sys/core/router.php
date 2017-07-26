@@ -23,7 +23,7 @@ class Router_Core {
 
     private function _init()
     {
-        $file = APPPATH . 'config/router.php';
+        $file = APPPATH . 'configs/router.php';
         if (is_file($file)) {
             $config = include ($file);
             foreach ($config as $key => $val) {

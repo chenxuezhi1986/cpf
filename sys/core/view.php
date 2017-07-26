@@ -8,7 +8,7 @@
 class View_Core {
     
     static $_instance;
-    static $view_dir = './app/view';
+    static $view_dir = './app/views';
     static $view_exts = '.php';
 
     private $cached = false;
@@ -20,7 +20,7 @@ class View_Core {
     
     private function _init()
     {
-        $file = APPPATH . 'config/view.php';
+        $file = APPPATH . 'configs/view.php';
         if (is_file($file)) {
             $config = include ($file);
             foreach ($config as $key => $val) {
