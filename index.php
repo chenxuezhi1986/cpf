@@ -5,7 +5,7 @@
  * @copyright 20147
  */
 
-define('C_DEBUG', true);
+define('C_DEBUG', false);
 define('SYSPATH', './sys/');
 define('APPPATH', './app/');
 require (SYSPATH . './core/kernel.php');

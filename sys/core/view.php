@@ -8,10 +8,9 @@
 class View_Core {
     
     static $_instance;
-    static $view_dir = './app/views';
-    static $view_exts = '.php';
-
-    private $cached = false;
+    protected $view_dir = './app/views';
+    protected $view_exts = '.php';
+    protected $cached = false;
     
     function __construct()
     {
@@ -20,29 +19,20 @@ class View_Core {
     
     private function _init()
     {
-		$com_file  = '/configs/view.php';
-		$app_file = APPPATH . 'configs/view.php';
-		if(is_file($com_file)){
-            $config = include ($com_file);
-            $this->_set_var($config);
-		}else if(is_file($app_file)){
-            $config = include ($app_file);
-            $this->_set_var($config);
+		$file = APPPATH . 'configs/view.php';
+		if(is_file($file)) {
+            $config = include ($file);
+            foreach ($config as $key => $val) {
+                if (isset($this->$key)) {
+                    $this->$key = $val;
+                }
+            }
 		}
     }
 
-	private function _set_var($config)
-	{
-		foreach ($config as $key => $val) {
-			if (isset($this->$key)) {
-				$this->$key = $val;
-			}
-		}
-	}
-
     public function display($filename, $data = array(), $cached = false)
     {
-        $view = self::$view_dir.'/'.$filename.self::$view_exts;
+        $view = $this->view_dir.'/'.$filename.$this->view_exts;
         $this->cached = $cached;
         
         if (defined('C_DEBUG') && C_DEBUG) {
