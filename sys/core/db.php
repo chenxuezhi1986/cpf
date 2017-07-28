@@ -30,12 +30,16 @@ class Db_Core
 
     private function _load_config($config_name)
     {
-        $file = APPPATH . 'configs/database.php';
-        if (is_file($file)) {
-            $configs = include ($file);
+		$com_file  = '/configs/database.php';
+		$app_file = APPPATH . 'configs/database.php';
+		if(is_file($com_file)){
+            $configs = include ($com_file);
             $this->config = $configs[$config_name];
-        } else {
-            error('Not found database config file : ' . $file);
+		}else if(is_file($app_file)){
+            $configs = include ($app_file);
+            $this->config = $configs[$config_name];
+		}else {
+            error('The database configuration file was not found');
         }
     }
 

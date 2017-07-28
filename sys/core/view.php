@@ -20,16 +20,25 @@ class View_Core {
     
     private function _init()
     {
-        $file = APPPATH . 'configs/view.php';
-        if (is_file($file)) {
-            $config = include ($file);
-            foreach ($config as $key => $val) {
-                if (isset($this->$key)) {
-                    $this->$key = $val;
-                }
-            }
-        }
+		$com_file  = '/configs/view.php';
+		$app_file = APPPATH . 'configs/view.php';
+		if(is_file($com_file)){
+            $config = include ($com_file);
+            $this->_set_var($config);
+		}else if(is_file($app_file)){
+            $config = include ($app_file);
+            $this->_set_var($config);
+		}
     }
+
+	private function _set_var($config)
+	{
+		foreach ($config as $key => $val) {
+			if (isset($this->$key)) {
+				$this->$key = $val;
+			}
+		}
+	}
 
     public function display($filename, $data = array(), $cached = false)
     {

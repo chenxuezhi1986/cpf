@@ -23,16 +23,25 @@ class Router_Core {
 
     private function _init()
     {
-        $file = APPPATH . 'configs/router.php';
-        if (is_file($file)) {
-            $config = include ($file);
-            foreach ($config as $key => $val) {
-                if (isset($this->$key)) {
-                    $this->$key = $val;
-                }
-            }
-        }
+		$com_file  = '/configs/router.php';
+		$app_file = APPPATH . 'configs/router.php';
+		if(is_file($com_file)){
+            $config = include ($com_file);
+            $this->_set_var($config);
+		}else if(is_file($app_file)){
+            $config = include ($app_file);
+            $this->_set_var($config);
+		}
     }
+
+	private function _set_var($config)
+	{
+		foreach ($config as $key => $val) {
+			if (isset($this->$key)) {
+				$this->$key = $val;
+			}
+		}
+	}
 
     public function get_event()
     {
@@ -51,7 +60,7 @@ class Router_Core {
     private function _get_uri()
     {
         $uri = '';
-        switch($this->url_mode) {            
+        switch($this->url_mode) {
             case Router_Core::URL_GET:
                 $uri = $this->_get_to_ctl($_GET);
                 break;
