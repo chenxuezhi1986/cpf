@@ -1,4 +1,5 @@
-<?php if (!defined('SYSPATH')) exit('Access Denied');
+<?php if (!defined('SYSPATH'))
+    exit('Access Denied');
 
 /**
  * @author chenxuezhi
@@ -30,15 +31,15 @@ class Db_Core
 
     private function _load_config($config_name)
     {
-		$com_file  = './../configs/database.php';
-		$app_file = APPPATH . 'configs/database.php';
-		if(is_file($com_file)){
+        $com_file = './../configs/database.php';
+        $app_file = APPPATH . 'configs/database.php';
+        if (is_file($com_file)) {
             $configs = include ($com_file);
             $this->config = $configs[$config_name];
-		}else if(is_file($app_file)){
+        } else if (is_file($app_file)) {
             $configs = include ($app_file);
             $this->config = $configs[$config_name];
-		}else {
+        } else {
             error('The database configuration file was not found');
         }
     }
@@ -47,21 +48,21 @@ class Db_Core
     {
         return $this->config;
     }
-    
+
     public function transaction()
     {
         $this->db->query('START TRANSACTION');
     }
-    
+
     public function rollback()
     {
         $this->db->query('ROLLBACK');
     }
-    
+
     public function commit()
     {
         $this->db->query('COMMIT');
-    }    
+    }
 
     public function rows($sql, $arg = array())
     {
@@ -69,6 +70,38 @@ class Db_Core
         $ret = $this->db->fetch_array($res);
         $this->db->free_result($res);
         return $ret ? $ret : array();
+    }
+
+    public function insert($table, $data)
+    {
+        $fields = array();
+        $valus = array();
+        foreach ($data as $k => $v) {
+            $fields[] = $k;
+            $valus[] = "'$v'";
+        }
+        $fields && $fields = implode(',', $fields);
+        $valus && $valus = implode(',', $valus);
+        $sql = "INSERT INTO $table($fields) VALUES ($valus)";
+        return $this->query($sql);
+    }
+
+    public function update($table, $data, $Wsql = '')
+    {
+        $sets = array();
+        foreach ($data as $k => $v) {
+            $sets[] = "$k = '$v'";
+        }
+        $sets && $sets = implode(',', $sets);
+        $Wsql && $Wsql = 'WHERE ' . $Wsql;
+        $sql = "UPDATE $table SET $sets $Wsql";
+        return $this->query($sql);
+    }
+
+    public function delete($table, $Wsql)
+    {
+        $sql = "DELETE FROM $table WHERE $Wsql";
+        return $this->query($sql);
     }
 
     public function query($sql, $arg = array(), $keyfield = '')
