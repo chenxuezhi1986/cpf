@@ -7,7 +7,7 @@
  
 class View_Core {
     
-    static $_instance;
+    static $instance;
     protected $view_dir = './app/views';
     protected $view_exts = '.php';
     protected $cached = false;
@@ -58,5 +58,14 @@ class View_Core {
             ob_end_clean();
             return $content;
         }
+    }
+    
+    public static function get_instance()
+    {
+        if (self::$instance instanceof self) {
+            return self::$instance;
+        }
+        self::$instance = new self;
+        return self::$instance;
     }
 }

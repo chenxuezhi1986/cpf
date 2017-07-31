@@ -5,7 +5,7 @@
  * @copyright 2014
  */
 
-class Param_Core {
+class Params_Core {
     public function get($var, $type = '')
     {
         $this->_settype($_GET[$var], $type);
@@ -14,19 +14,19 @@ class Param_Core {
 
     public function post($var, $type = '')
     {
-        $this->_settype($_GET[$var], $type = '');
+        $this->_settype($_POST[$var], $type = '');
         return $_POST[$var];
     }
 
     public function cookie($var, $type = '')
     {
-        $this->_settype($_GET[$var], $type);
+        $this->_settype($_COOKIE[$var], $type);
         return $_COOKIE[$var];
     }
 
     public function request($var, $type = '')
     {
-        $this->_settype($_GET[$var], $type);
+        $this->_settype($_REQUEST[$var], $type);
         return $_REQUEST[$var];
     }
 

@@ -11,11 +11,6 @@ class Model_Core {
     
     protected $table;
 
-    public function __construct()
-    {
-        
-    }
-
     public function __get($key)
     {
         return Controller_Core::$instance->$key;

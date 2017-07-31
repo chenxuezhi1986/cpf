@@ -23,7 +23,6 @@ class Controller_Core
     //控制器快捷方法映射如：$this->load
     public function __get($name) {
         $classs['db'] = 'Db_Core';
-        $classs['view'] = 'View_Core';
         $classs['load'] = 'Loader_Core';
         $classs['param'] = 'Param_Core';
 
@@ -35,8 +34,9 @@ class Controller_Core
         }
     }
     
-    protected function display($filename, $data = array(), $get_contens = false)
+    protected function display($filename, $data = array(), $cached = false)
     {
-        return View_Core::display($filename, $data, $get_contens);
+        $view = View_Core::get_instance();
+        return $view->display($filename, $data, $cached);
     }
 }
