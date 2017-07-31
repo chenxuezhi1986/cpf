@@ -24,7 +24,7 @@ class Controller_Core
     public function __get($name) {
         $classs['db'] = 'Db_Core';
         $classs['load'] = 'Loader_Core';
-        $classs['param'] = 'Param_Core';
+        $classs['params'] = 'Params_Core';
 
         if(isset($classs[$name])){
             if(!isset(self::$objs[$name])){

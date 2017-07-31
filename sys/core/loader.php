@@ -19,7 +19,7 @@ class Loader_Core {
         if (isset($_classes[$class])) {
             return $_classes[$class];
         }
-
+        
         $filename = APPPATH . 'libs/' . $class . '.php';
         if(is_file($filename)){
             $class_name = $class . '_Lib';
