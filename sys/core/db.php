@@ -87,7 +87,7 @@ class Db_Core
         return $this->query($sql);
     }
 
-    public function update($table, $data, $Wsql = '')
+    public function update($table, $data, $Wsql)
     {
         $sets = array();
         $table = $this->config['dbprefix'].$table;
@@ -95,8 +95,7 @@ class Db_Core
             $sets[] = "$k = '$v'";
         }
         $sets && $sets = implode(',', $sets);
-        $Wsql && $Wsql = 'WHERE ' . $Wsql;
-        $sql = "UPDATE $table SET $sets $Wsql";
+        $sql = "UPDATE $table SET $sets WHERE $Wsql";
         return $this->query($sql);
     }
 
