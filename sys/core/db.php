@@ -76,6 +76,7 @@ class Db_Core
     {
         $fields = array();
         $valus = array();
+        $table = $this->config['dbprefix'].$table;
         foreach ($data as $k => $v) {
             $fields[] = $k;
             $valus[] = "'$v'";
@@ -89,6 +90,7 @@ class Db_Core
     public function update($table, $data, $Wsql = '')
     {
         $sets = array();
+        $table = $this->config['dbprefix'].$table;
         foreach ($data as $k => $v) {
             $sets[] = "$k = '$v'";
         }
@@ -100,6 +102,7 @@ class Db_Core
 
     public function delete($table, $Wsql)
     {
+        $table = $this->config['dbprefix'].$table;
         $sql = "DELETE FROM $table WHERE $Wsql";
         return $this->query($sql);
     }
