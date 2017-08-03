@@ -15,6 +15,6 @@ class Welcome_Controller extends Controller_Core{
         $data['title'] = 'ooo';
         $data['content'] = $this->welcome_model->say();
         $data['cc'] = '111';
-        $this->view->display('welcome', $data);
+        $this->display('welcome', $data);
     }
 }

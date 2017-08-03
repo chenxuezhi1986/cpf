@@ -31,7 +31,7 @@ class Db_Core
 
     private function _load_config($config_name)
     {
-        $com_file = './../configs/database.php';
+        $com_file = './configs/database.php';
         $app_file = APPPATH . 'configs/database.php';
         if (is_file($com_file)) {
             $configs = include ($com_file);
