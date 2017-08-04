@@ -7,10 +7,7 @@
 
 return array(
 	'url_mode'=>1,
-	'deft_ctl'=>'welcome',
+	'deft_ctl'=>'index',
 	'deft_act'=>'index',
-	'event_maps'=>array(
-	    'ccc'=>'hh',
-	    'test'=>'welcome'
-	),
+	'event_maps'=>array()
 );
