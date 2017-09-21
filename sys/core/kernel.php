@@ -72,7 +72,7 @@ class Kernel {
             $name = substr($class, 0, $pos);
             $exts = substr($class, $pos + 1);
 
-            if ($exts == 'model') $name = $class;
+            ($exts == 'model') && $name = $class;
 
             $paths['core'] = SYSPATH . 'core/';
             $paths['driver'] = SYSPATH . 'driver/';
