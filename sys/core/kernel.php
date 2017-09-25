@@ -10,11 +10,11 @@ class Kernel {
 
     private static function _init()
     {
-        define('C_TIMESTAMP', $_SERVER['REQUEST_TIME']);
+        define('C_TIME', $_SERVER['REQUEST_TIME']);
         define('C_TIMEMICRO', self::_microtime());
 
         spl_autoload_register(array('Kernel', '_autoload')); //注册自动加载函数
-        set_error_handler(array('Error_Core', 'error_handler')); //自定义错误方法
+        set_error_handler(array('Error_Core', 'error_handler')); //注册错误及异常处理机制
         require_once (SYSPATH . 'core/common.php'); //函数库
     }
 
@@ -113,6 +113,7 @@ EOT;
 
         //Debug模式
         if (defined('C_DEBUG') && C_DEBUG) {
+            
             //内存消耗单位转换
             $unit = array('b','kb','mb','gb','tb','pb');
             $memory_size = memory_get_usage(true);

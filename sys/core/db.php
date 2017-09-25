@@ -31,19 +31,19 @@ class Db_Core
 
     private function _load_config($config_name)
     {
-        $com_file = './configs/database.php';
-        $app_file = APPPATH . 'configs/database.php';
-        if (is_file($com_file)) {
-            $configs = include ($com_file);
+        $public_config = './configs/database.php';
+        $app_config = APPPATH . 'configs/database.php';
+        if (is_file($public_config)) {
+            $configs = include ($public_config);
             $this->config = $configs[$config_name];
-        } else if (is_file($app_file)) {
-            $configs = include ($app_file);
+        } else if (is_file($app_config)) {
+            $configs = include ($app_config);
             $this->config = $configs[$config_name];
         } else {
             error('The database configuration file was not found');
         }
     }
-
+    
     public function get_config()
     {
         return $this->config;

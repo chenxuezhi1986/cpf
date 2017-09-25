@@ -11,9 +11,9 @@ class Model_Core {
     
     protected $table;
 
-    public function __get($key)
+    public function __get($var)
     {
-        return Controller_Core::$instance->$key;
+        return Controller_Core::$instance->$var;
     }
 
     public static function get_instance()

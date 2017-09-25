@@ -11,6 +11,11 @@
 <body>
 <strong><?php print_r($title);?></strong></br>
 
-<{$content}><{include file="123"}>
+<?php
+    $data = array(1,2,3,4,5,6,7,8,9,10,11,2123,3242);
+?>
+<?php foreach($data aS $items): ?>
+<?php echo $items;?>
+<?php endforeach;?>
 </body>
 </html>

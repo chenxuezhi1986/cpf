@@ -11,7 +11,7 @@ class Welcome_Model extends Model_Core{
 
     public function say()
     {
-        $sql = "select * from  user";
+        $sql = "select * from  c_user";
         $c = $this->db->query($sql);
     }
     
