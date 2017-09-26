@@ -39,4 +39,10 @@ class Controller_Core
         $view = View_Core::get_instance();
         return $view->display($filename, $data, $cached);
     }
+    
+    protected function json($content, $options = 0)
+    {
+        echo json_encode($content, $options);
+        exit(0);
+    }
 }

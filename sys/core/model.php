@@ -10,12 +10,18 @@ class Model_Core {
     static $instance;
     
     protected $table;
+    protected $pk = 'id';
 
     public function __get($var)
     {
         return Controller_Core::$instance->$var;
     }
 
+    public function find()
+    {
+        $sql = "SELECT * FROM $";
+    }
+    
     public static function get_instance()
     {
         if (self::$instance instanceof self) {
