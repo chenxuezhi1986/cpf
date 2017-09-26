@@ -8,8 +8,8 @@
 class View_Core {
     
     static $instance;
-    protected $view_dir = './app/views';
-    protected $view_exts = '.php';
+    protected $dir = './app/views';
+    protected $exts = '.php';
     protected $cached = false;
     
     function __construct()
@@ -32,7 +32,7 @@ class View_Core {
 
     public function display($filename, $data = array(), $cached = false)
     {
-        $view = $this->view_dir.'/'.$filename.$this->view_exts;
+        $view = $this->dir.'/'.$filename.$this->exts;
         $this->cached = $cached;
         
         if (defined('C_DEBUG') && C_DEBUG) {

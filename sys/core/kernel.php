@@ -15,7 +15,7 @@ class Kernel {
 
         spl_autoload_register(array('Kernel', '_autoload')); //注册自动加载函数
         set_error_handler(array('Error_Core', 'error_handler')); //注册错误及异常处理机制
-        require_once (SYSPATH . 'core/common.php'); //函数库
+        require_once (SYSPATH . 'core/func.php'); //函数库
     }
 
     public static function &__this()
