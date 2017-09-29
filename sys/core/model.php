@@ -17,9 +17,10 @@ class Model_Core {
         return Controller_Core::$instance->$var;
     }
 
-    public function find()
+    protected function find($id)
     {
-        $sql = "SELECT * FROM $";
+        $sql = "SELECT * FROM $this->table WHERE $this->pk = '$id'";
+        return $this->db->rows($sql);
     }
     
     public static function get_instance()
