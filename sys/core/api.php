@@ -41,13 +41,15 @@ class Controller_Core
         $tmp_str = implode($tmp_arr);
         $tmp_str = sha1($tmp_str);
         if($tmp_str != $sign){
-            throw new Exception('签名验证失败');
+            $data['err'] = 99;
+            $data['msg'] = '签名验证失败';
+            $this->json($data);
         }
     }
     
-    protected function json($content, $options = 0)
+    protected function json($data, $options = 0)
     {
-        echo json_encode($content, $options);
+        echo json_encode($data, $options);
         exit(0);
     }
 }
